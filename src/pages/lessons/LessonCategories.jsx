@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LESSON_CATEGORIES, MENU_GROUPS, getCategoriesByGroup } from '../../config/lessons';
 
@@ -17,6 +17,13 @@ const ALL_GROUPS = [
 
 export default function LessonCategories() {
   const { language, t } = useLanguage();
+  const [searchParams] = useSearchParams();
+  const groupParam = searchParams.get('group');
+
+  // Show specific group if param exists, otherwise show all
+  const groups = groupParam
+    ? ALL_GROUPS.filter(g => g.id === groupParam)
+    : ALL_GROUPS;
 
   return (
     <div className="lessons-page">
@@ -26,7 +33,7 @@ export default function LessonCategories() {
           <p>{t('lessons.desc')}</p>
         </div>
 
-        {ALL_GROUPS.map(group => {
+        {groups.map(group => {
           const categories = group.id === 'prompt'
             ? [promptCategory].filter(Boolean)
             : getCategoriesByGroup(group.id);
