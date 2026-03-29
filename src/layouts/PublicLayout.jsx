@@ -1,7 +1,8 @@
-import { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Suspense, lazy, useState } from 'react';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import LessonsSidebar from '../components/layout/LessonsSidebar';
 import AuthGuard from '../components/AuthGuard';
 import AdminGuard from '../components/AdminGuard';
 
@@ -29,6 +30,25 @@ function LoadingFallback() {
   );
 }
 
+function LessonsLayout() {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  return (
+    <div className="aw-lessons-layout">
+      <LessonsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <div className="aw-main">
+        <button
+          className="aw-sidebar-toggle"
+          onClick={() => setSidebarOpen(prev => !prev)}
+          aria-label="Toggle sidebar"
+        >
+          <i className="fa-solid fa-bars" />
+        </button>
+        <Outlet />
+      </div>
+    </div>
+  );
+}
+
 export default function PublicLayout() {
   return (
     <>
@@ -38,9 +58,11 @@ export default function PublicLayout() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/intro" element={<IntroPage />} />
-            <Route path="/lessons" element={<LessonCategories />} />
-            <Route path="/lessons/:categorySlug" element={<LessonList />} />
-            <Route path="/lessons/:categorySlug/:lessonSlug" element={<LessonDetail />} />
+            <Route path="/lessons" element={<LessonsLayout />}>
+              <Route index element={<LessonCategories />} />
+              <Route path=":categorySlug" element={<LessonList />} />
+              <Route path=":categorySlug/:lessonSlug" element={<LessonDetail />} />
+            </Route>
             <Route path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
             <Route path="/settings" element={<AuthGuard><Settings /></AuthGuard>} />
             <Route path="/login" element={<Login />} />
