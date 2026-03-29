@@ -512,12 +512,6 @@
   color: var(--primary-blue);
 }
 
-.aw-np-icon {
-  width: 16px;
-  text-align: center;
-  font-size: 12px;
-  flex-shrink: 0;
-}
 .aw-nav-parent span { flex: 1; }
 
 .aw-nav-arrow {

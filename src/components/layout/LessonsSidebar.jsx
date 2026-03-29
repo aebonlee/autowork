@@ -22,10 +22,25 @@ export default function LessonsSidebar({ isOpen, onClose }) {
   // Track which categories are expanded
   const [expanded, setExpanded] = useState({});
 
-  // Auto-expand the active category
+  // Auto-expand all categories in the active group
   useEffect(() => {
     if (activeCategorySlug) {
-      setExpanded(prev => ({ ...prev, [activeCategorySlug]: true }));
+      for (const group of ALL_GROUPS) {
+        if (group.categorySlugs.includes(activeCategorySlug)) {
+          const newExpanded = {};
+          group.categorySlugs.forEach(slug => { newExpanded[slug] = true; });
+          setExpanded(prev => ({ ...prev, ...newExpanded }));
+          break;
+        }
+      }
+    } else {
+      // On /lessons index, expand the first group by default
+      const firstGroup = ALL_GROUPS[0];
+      if (firstGroup) {
+        const newExpanded = {};
+        firstGroup.categorySlugs.forEach(slug => { newExpanded[slug] = true; });
+        setExpanded(newExpanded);
+      }
     }
   }, [activeCategorySlug]);
 
@@ -63,7 +78,6 @@ export default function LessonsSidebar({ isOpen, onClose }) {
                         className={`aw-nav-parent ${isCatActive ? 'active' : ''}`}
                         onClick={() => toggleCategory(cat.slug)}
                       >
-                        <i className={`fa-solid ${cat.icon} aw-np-icon`} />
                         <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
                         <i className={`fa-solid fa-chevron-down aw-nav-arrow ${isExpanded ? 'open' : ''}`} />
                       </button>
