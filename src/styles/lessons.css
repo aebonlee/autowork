@@ -299,19 +299,21 @@
   text-decoration: underline;
 }
 
-/* Primary color header variant for lesson detail */
-.ck-ch--primary {
+/* Primary color header variant for lesson detail
+   Uses .ck-content-header.ck-ch--primary for higher specificity
+   to override base .ck-content-header in intro-page.css */
+.ck-content-header.ck-ch--primary {
   background: var(--primary-gradient, linear-gradient(135deg, var(--primary-blue) 0%, #2d5aa0 100%));
   color: white;
   border-bottom: none;
 }
-.ck-ch--primary > i {
+.ck-content-header.ck-ch--primary > i {
   color: rgba(255,255,255,0.8);
 }
-.ck-ch--primary .ck-ch-text h2 {
+.ck-content-header.ck-ch--primary .ck-ch-text h2 {
   color: white;
 }
-.ck-ch--primary .ck-ch-text p {
+.ck-content-header.ck-ch--primary .ck-ch-text p {
   color: rgba(255,255,255,0.8);
 }
 
