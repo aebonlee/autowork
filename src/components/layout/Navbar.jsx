@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
+import { LESSON_CATEGORIES } from '../../config/lessons';
 
 export default function Navbar() {
   const { mode, toggleTheme, colorTheme, setColorTheme, COLOR_OPTIONS } = useTheme();
@@ -15,8 +16,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showLessonsDropdown, setShowLessonsDropdown] = useState(false);
+  const [mobileLessonsOpen, setMobileLessonsOpen] = useState(false);
   const colorPickerRef = useRef(null);
   const userMenuRef = useRef(null);
+  const lessonsDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -26,18 +30,20 @@ export default function Navbar() {
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setMobileLessonsOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     function handleClickOutside(e) {
       if (colorPickerRef.current && !colorPickerRef.current.contains(e.target)) setShowColorPicker(false);
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setShowUserMenu(false);
+      if (lessonsDropdownRef.current && !lessonsDropdownRef.current.contains(e.target)) setShowLessonsDropdown(false);
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const themeIcon = mode === 'auto' ? '\u25D1' : mode === 'light' ? '\u2600\uFE0F' : '\uD83C\uDF19';
+  const themeIcon = mode === 'auto' ? '\u25D1' : mode === 'light' ? '\u2600' : '\uD83C\uDF19';
   const displayName = profile?.display_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || '';
   const avatarLetter = displayName.charAt(0).toUpperCase();
 
@@ -46,15 +52,8 @@ export default function Navbar() {
     navigate('/');
   }
 
-  const navLinks = [
-    { path: '/intro', label: t('nav.intro') },
-    { path: '/lessons', label: t('nav.lessons'), match: '/lessons' },
-    { path: '/lessons/excel', label: t('nav.excel') },
-    { path: '/lessons/python', label: t('nav.python') },
-    { path: '/lessons/nocode', label: t('nav.nocode') },
-    { path: '/lessons/ai', label: t('nav.ai') },
-    { path: '/community/board', label: t('nav.community'), match: '/community' },
-  ];
+  const isLessonsActive = location.pathname.startsWith('/lessons');
+  const isCommunityActive = location.pathname.startsWith('/community');
 
   return (
     <>
@@ -66,16 +65,48 @@ export default function Navbar() {
           </Link>
 
           <ul className="nav-links">
-            {navLinks.map(link => (
-              <li key={link.path} className="nav-item">
-                <Link
-                  to={link.path}
-                  className={`nav-link ${location.pathname === link.path || (link.match && location.pathname.startsWith(link.match) && !navLinks.some(l => l.path !== link.path && l.path === location.pathname)) ? 'active' : ''}`}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            <li className="nav-item">
+              <Link to="/intro" className={`nav-link ${location.pathname === '/intro' ? 'active' : ''}`}>
+                {t('nav.intro')}
+              </Link>
+            </li>
+
+            {/* Lessons Dropdown */}
+            <li
+              className="nav-item nav-dropdown"
+              ref={lessonsDropdownRef}
+              onMouseEnter={() => setShowLessonsDropdown(true)}
+              onMouseLeave={() => setShowLessonsDropdown(false)}
+            >
+              <Link to="/lessons" className={`nav-link ${isLessonsActive ? 'active' : ''}`}>
+                {t('nav.lessons')} <i className="fa-solid fa-chevron-down nav-dropdown-arrow" />
+              </Link>
+              <div className={`nav-dropdown-menu ${showLessonsDropdown ? 'show' : ''}`}>
+                <div className="nav-dropdown-grid">
+                  {LESSON_CATEGORIES.map(cat => (
+                    <Link
+                      key={cat.slug}
+                      to={`/lessons/${cat.slug}`}
+                      className={`nav-dropdown-item ${location.pathname === `/lessons/${cat.slug}` ? 'active' : ''}`}
+                    >
+                      <i className={`fa-solid ${cat.icon} nav-dropdown-icon`} />
+                      <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                    </Link>
+                  ))}
+                </div>
+                <div className="nav-dropdown-footer">
+                  <Link to="/lessons" className="nav-dropdown-all">
+                    <i className="fa-solid fa-grid-2" /> {language === 'ko' ? '전체 카테고리 보기' : 'View All Categories'}
+                  </Link>
+                </div>
+              </div>
+            </li>
+
+            <li className="nav-item">
+              <Link to="/community/board" className={`nav-link ${isCommunityActive ? 'active' : ''}`}>
+                {t('nav.community')}
+              </Link>
+            </li>
           </ul>
 
           <div className="navbar-actions">
@@ -115,18 +146,18 @@ export default function Navbar() {
                     <div className="user-menu-email">{user?.email}</div>
                   </div>
                   <Link to="/dashboard" className="user-menu-item" onClick={() => setShowUserMenu(false)}>
-                    \uD83D\uDCCA {t('nav.dashboard')}
+                    <i className="fa-solid fa-chart-pie" /> {t('nav.dashboard')}
                   </Link>
                   <Link to="/settings" className="user-menu-item" onClick={() => setShowUserMenu(false)}>
-                    \u2699\uFE0F {t('nav.settings')}
+                    <i className="fa-solid fa-gear" /> {t('nav.settings')}
                   </Link>
                   {isAdmin && (
                     <Link to="/admin" className="user-menu-item" onClick={() => setShowUserMenu(false)}>
-                      \uD83D\uDEE1\uFE0F {t('nav.admin')}
+                      <i className="fa-solid fa-shield-halved" /> {t('nav.admin')}
                     </Link>
                   )}
                   <button className="user-menu-item danger" onClick={handleSignOut}>
-                    \uD83D\uDEAA {t('nav.logout')}
+                    <i className="fa-solid fa-right-from-bracket" /> {t('nav.logout')}
                   </button>
                 </div>
               </div>
@@ -146,18 +177,44 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile Menu */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <ul className="mobile-nav-links">
-          {navLinks.map(link => (
-            <li key={link.path}><Link to={link.path} className="mobile-nav-link">{link.label}</Link></li>
-          ))}
+          <li>
+            <Link to="/intro" className="mobile-nav-link">{t('nav.intro')}</Link>
+          </li>
+          <li>
+            <button
+              className={`mobile-nav-link mobile-accordion-toggle ${mobileLessonsOpen ? 'open' : ''}`}
+              onClick={() => setMobileLessonsOpen(!mobileLessonsOpen)}
+            >
+              {t('nav.lessons')}
+              <i className={`fa-solid fa-chevron-down mobile-accordion-arrow ${mobileLessonsOpen ? 'rotated' : ''}`} />
+            </button>
+            <div className={`mobile-accordion-content ${mobileLessonsOpen ? 'open' : ''}`}>
+              <Link to="/lessons" className="mobile-sub-link mobile-sub-all">
+                <i className="fa-solid fa-th-large" /> {language === 'ko' ? '전체 카테고리' : 'All Categories'}
+              </Link>
+              {LESSON_CATEGORIES.map(cat => (
+                <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="mobile-sub-link">
+                  <i className={`fa-solid ${cat.icon}`} /> {language === 'ko' ? cat.nameKo : cat.nameEn}
+                </Link>
+              ))}
+            </div>
+          </li>
+          <li>
+            <Link to="/community/board" className="mobile-nav-link">{t('nav.community')}</Link>
+          </li>
+          {isLoggedIn && (
+            <>
+              <li><Link to="/dashboard" className="mobile-nav-link">{t('nav.dashboard')}</Link></li>
+              <li><Link to="/settings" className="mobile-nav-link">{t('nav.settings')}</Link></li>
+            </>
+          )}
         </ul>
         <div className="mobile-menu-actions">
           {isLoggedIn ? (
-            <>
-              <Link to="/settings" className="btn btn-secondary btn-sm">{t('nav.settings')}</Link>
-              <button className="btn btn-primary btn-sm" onClick={handleSignOut}>{t('nav.logout')}</button>
-            </>
+            <button className="btn btn-primary btn-sm" onClick={handleSignOut}>{t('nav.logout')}</button>
           ) : (
             <>
               <Link to="/login" className="btn btn-primary btn-sm">{t('nav.login')}</Link>

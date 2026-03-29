@@ -28,7 +28,7 @@ export default function LessonCategories() {
               data-aos="fade-up"
               data-aos-delay={i * 80}
             >
-              <div className="lesson-category-icon">{cat.icon}</div>
+              <div className="lesson-category-icon"><i className={`fa-solid ${cat.icon}`} /></div>
               <div className="lesson-category-info">
                 <h3>{language === 'ko' ? cat.nameKo : cat.nameEn}</h3>
                 <p>{language === 'ko' ? cat.descKo : cat.descEn}</p>

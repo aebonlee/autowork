@@ -27,7 +27,7 @@ export default function Home() {
           <div className="ai-tools-grid">
             {LESSON_CATEGORIES.map((cat, i) => (
               <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="ai-tool-card" data-aos="fade-up" data-aos-delay={i * 100}>
-                <div className="ai-tool-icon">{cat.icon}</div>
+                <div className="ai-tool-icon"><i className={`fa-solid ${cat.icon}`} /></div>
                 <div className="ai-tool-info">
                   <h4>{language === 'ko' ? cat.nameKo : cat.nameEn}</h4>
                   <p>{language === 'ko' ? cat.descKo : cat.descEn}</p>

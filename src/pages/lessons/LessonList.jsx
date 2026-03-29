@@ -34,7 +34,7 @@ export default function LessonList() {
         </Link>
 
         <div className="lesson-list-header">
-          <div className="lesson-list-icon">{category.icon}</div>
+          <div className="lesson-list-icon"><i className={`fa-solid ${category.icon}`} /></div>
           <div>
             <h1>{language === 'ko' ? category.nameKo : category.nameEn}</h1>
             <p>{language === 'ko' ? category.descKo : category.descEn}</p>
