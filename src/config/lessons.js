@@ -169,7 +169,55 @@ export const LESSON_CATEGORIES = [
       { slug: 'custom-project', titleKo: '나만의 자동화 프로젝트', titleEn: 'Build Your Own Automation', duration: 45 },
     ],
   },
+  {
+    id: 11,
+    slug: 'prompt',
+    icon: 'fa-wand-magic-sparkles',
+    nameKo: '프롬프트 학습',
+    nameEn: 'Prompt Learning',
+    descKo: '효과적인 프롬프트 작성법과 LLM 활용 전략을 체계적으로 학습합니다.',
+    descEn: 'Learn effective prompt engineering techniques and LLM utilization strategies.',
+    level: 'intermediate',
+    lessons: [
+      { slug: 'prompt-basics', titleKo: '프롬프트 엔지니어링 기초', titleEn: 'Prompt Engineering Basics', duration: 25 },
+      { slug: 'system-prompt-design', titleKo: '시스템 프롬프트 설계', titleEn: 'System Prompt Design', duration: 20 },
+      { slug: 'craft-framework', titleKo: 'CRAFT 프레임워크', titleEn: 'CRAFT Framework', duration: 22 },
+      { slug: 'output-formatting', titleKo: '출력 형식과 검증', titleEn: 'Output Formatting & Validation', duration: 18 },
+      { slug: 'few-shot-learning', titleKo: 'Few-shot 학습과 예제', titleEn: 'Few-shot Learning & Examples', duration: 20 },
+      { slug: 'prompt-security', titleKo: '프롬프트 보안', titleEn: 'Prompt Security', duration: 20 },
+    ],
+  },
 ];
+
+export const MENU_GROUPS = [
+  {
+    id: 'oa',
+    nameKo: 'OA 업무자동화',
+    nameEn: 'OA Automation',
+    icon: 'fa-desktop',
+    categorySlugs: ['basics', 'excel', 'python', 'document', 'data'],
+  },
+  {
+    id: 'ai-auto',
+    nameKo: 'AI활용 업무자동화',
+    nameEn: 'AI Automation',
+    icon: 'fa-brain',
+    categorySlugs: ['ai', 'rpa', 'nocode'],
+  },
+  {
+    id: 'projects',
+    nameKo: '실전 프로젝트',
+    nameEn: 'Real Projects',
+    icon: 'fa-rocket',
+    categorySlugs: ['workflow', 'projects'],
+  },
+];
+
+export function getCategoriesByGroup(groupId) {
+  const group = MENU_GROUPS.find(g => g.id === groupId);
+  if (!group) return [];
+  return group.categorySlugs.map(slug => getCategoryBySlug(slug)).filter(Boolean);
+}
 
 export function getCategoryBySlug(slug) {
   return LESSON_CATEGORIES.find(c => c.slug === slug);

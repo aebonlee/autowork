@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { LESSON_CATEGORIES } from '../../config/lessons';
+import { LESSON_CATEGORIES, MENU_GROUPS, getCategoriesByGroup } from '../../config/lessons';
 
 export default function Navbar() {
   const { mode, toggleTheme, colorTheme, setColorTheme, COLOR_OPTIONS } = useTheme();
@@ -16,11 +16,11 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showLessonsDropdown, setShowLessonsDropdown] = useState(false);
-  const [mobileLessonsOpen, setMobileLessonsOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'oa' | 'ai-auto' | 'projects' | 'prompt' | null
+  const [mobileAccordion, setMobileAccordion] = useState(null); // 'oa' | 'ai-auto' | 'projects' | 'prompt' | null
   const colorPickerRef = useRef(null);
   const userMenuRef = useRef(null);
-  const lessonsDropdownRef = useRef(null);
+  const dropdownRefs = useRef({});
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -30,20 +30,24 @@ export default function Navbar() {
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
-    setMobileLessonsOpen(false);
+    setMobileAccordion(null);
   }, [location.pathname]);
 
   useEffect(() => {
     function handleClickOutside(e) {
       if (colorPickerRef.current && !colorPickerRef.current.contains(e.target)) setShowColorPicker(false);
       if (userMenuRef.current && !userMenuRef.current.contains(e.target)) setShowUserMenu(false);
-      if (lessonsDropdownRef.current && !lessonsDropdownRef.current.contains(e.target)) setShowLessonsDropdown(false);
+      // Close dropdown if clicking outside any dropdown ref
+      if (activeDropdown) {
+        const ref = dropdownRefs.current[activeDropdown];
+        if (ref && !ref.contains(e.target)) setActiveDropdown(null);
+      }
     }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [activeDropdown]);
 
-  const themeIcon = mode === 'auto' ? '\u25D1' : mode === 'light' ? '\u2600' : '\uD83C\uDF19';
+  const themeIcon = mode === 'auto' ? '◑' : mode === 'light' ? '☀' : '🌙';
   const displayName = profile?.display_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || '';
   const avatarLetter = displayName.charAt(0).toUpperCase();
 
@@ -55,6 +59,20 @@ export default function Navbar() {
   const isLessonsActive = location.pathname.startsWith('/lessons');
   const isCommunityActive = location.pathname.startsWith('/community');
 
+  // Prompt category for standalone menu
+  const promptCategory = LESSON_CATEGORIES.find(c => c.slug === 'prompt');
+
+  // Group nav translation keys
+  const groupNavKeys = {
+    'oa': 'nav.oaAutomation',
+    'ai-auto': 'nav.aiAutomation',
+    'projects': 'nav.realProjects',
+  };
+
+  function toggleMobileAccordion(id) {
+    setMobileAccordion(prev => prev === id ? null : id);
+  }
+
   return (
     <>
       <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
@@ -65,43 +83,76 @@ export default function Navbar() {
           </Link>
 
           <ul className="nav-links">
+            {/* About */}
             <li className="nav-item">
               <Link to="/intro" className={`nav-link ${location.pathname === '/intro' ? 'active' : ''}`}>
                 {t('nav.intro')}
               </Link>
             </li>
 
-            {/* Lessons Dropdown */}
+            {/* MENU_GROUPS: OA / AI / Projects */}
+            {MENU_GROUPS.map(group => {
+              const categories = getCategoriesByGroup(group.id);
+              const isActive = categories.some(cat => location.pathname.startsWith(`/lessons/${cat.slug}`));
+              return (
+                <li
+                  key={group.id}
+                  className="nav-item nav-dropdown"
+                  ref={el => dropdownRefs.current[group.id] = el}
+                  onMouseEnter={() => setActiveDropdown(group.id)}
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <button className={`nav-link ${isActive ? 'active' : ''}`}>
+                    {t(groupNavKeys[group.id])} <i className="fa-solid fa-chevron-down nav-dropdown-arrow" />
+                  </button>
+                  <div className={`nav-dropdown-menu ${activeDropdown === group.id ? 'show' : ''}`}>
+                    <div className="nav-dropdown-grid">
+                      {categories.map(cat => (
+                        <Link
+                          key={cat.slug}
+                          to={`/lessons/${cat.slug}`}
+                          className={`nav-dropdown-item ${location.pathname === `/lessons/${cat.slug}` ? 'active' : ''}`}
+                        >
+                          <i className={`fa-solid ${cat.icon} nav-dropdown-icon`} />
+                          <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+
+            {/* Prompt Learning - standalone dropdown with lesson list */}
             <li
               className="nav-item nav-dropdown"
-              ref={lessonsDropdownRef}
-              onMouseEnter={() => setShowLessonsDropdown(true)}
-              onMouseLeave={() => setShowLessonsDropdown(false)}
+              ref={el => dropdownRefs.current['prompt'] = el}
+              onMouseEnter={() => setActiveDropdown('prompt')}
+              onMouseLeave={() => setActiveDropdown(null)}
             >
-              <Link to="/lessons" className={`nav-link ${isLessonsActive ? 'active' : ''}`}>
-                {t('nav.lessons')} <i className="fa-solid fa-chevron-down nav-dropdown-arrow" />
+              <Link
+                to="/lessons/prompt"
+                className={`nav-link ${location.pathname.startsWith('/lessons/prompt') ? 'active' : ''}`}
+              >
+                {t('nav.prompt')} <i className="fa-solid fa-chevron-down nav-dropdown-arrow" />
               </Link>
-              <div className={`nav-dropdown-menu ${showLessonsDropdown ? 'show' : ''}`}>
-                <div className="nav-dropdown-grid">
-                  {LESSON_CATEGORIES.map(cat => (
+              <div className={`nav-dropdown-menu nav-dropdown-menu-sm ${activeDropdown === 'prompt' ? 'show' : ''}`}>
+                <div className="nav-dropdown-list">
+                  {promptCategory && promptCategory.lessons.map(lesson => (
                     <Link
-                      key={cat.slug}
-                      to={`/lessons/${cat.slug}`}
-                      className={`nav-dropdown-item ${location.pathname === `/lessons/${cat.slug}` ? 'active' : ''}`}
+                      key={lesson.slug}
+                      to={`/lessons/prompt/${lesson.slug}`}
+                      className={`nav-dropdown-item ${location.pathname === `/lessons/prompt/${lesson.slug}` ? 'active' : ''}`}
                     >
-                      <i className={`fa-solid ${cat.icon} nav-dropdown-icon`} />
-                      <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                      <i className="fa-solid fa-wand-magic-sparkles nav-dropdown-icon" />
+                      <span>{language === 'ko' ? lesson.titleKo : lesson.titleEn}</span>
                     </Link>
                   ))}
-                </div>
-                <div className="nav-dropdown-footer">
-                  <Link to="/lessons" className="nav-dropdown-all">
-                    <i className="fa-solid fa-grid-2" /> {language === 'ko' ? '전체 카테고리 보기' : 'View All Categories'}
-                  </Link>
                 </div>
               </div>
             </li>
 
+            {/* Community */}
             <li className="nav-item">
               <Link to="/community/board" className={`nav-link ${isCommunityActive ? 'active' : ''}`}>
                 {t('nav.community')}
@@ -183,25 +234,52 @@ export default function Navbar() {
           <li>
             <Link to="/intro" className="mobile-nav-link">{t('nav.intro')}</Link>
           </li>
+
+          {/* Mobile: MENU_GROUPS accordions */}
+          {MENU_GROUPS.map(group => {
+            const categories = getCategoriesByGroup(group.id);
+            const isOpen = mobileAccordion === group.id;
+            return (
+              <li key={group.id}>
+                <button
+                  className={`mobile-nav-link mobile-accordion-toggle ${isOpen ? 'open' : ''}`}
+                  onClick={() => toggleMobileAccordion(group.id)}
+                >
+                  {t(groupNavKeys[group.id])}
+                  <i className={`fa-solid fa-chevron-down mobile-accordion-arrow ${isOpen ? 'rotated' : ''}`} />
+                </button>
+                <div className={`mobile-accordion-content ${isOpen ? 'open' : ''}`}>
+                  {categories.map(cat => (
+                    <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="mobile-sub-link">
+                      <i className={`fa-solid ${cat.icon}`} /> {language === 'ko' ? cat.nameKo : cat.nameEn}
+                    </Link>
+                  ))}
+                </div>
+              </li>
+            );
+          })}
+
+          {/* Mobile: Prompt accordion */}
           <li>
             <button
-              className={`mobile-nav-link mobile-accordion-toggle ${mobileLessonsOpen ? 'open' : ''}`}
-              onClick={() => setMobileLessonsOpen(!mobileLessonsOpen)}
+              className={`mobile-nav-link mobile-accordion-toggle ${mobileAccordion === 'prompt' ? 'open' : ''}`}
+              onClick={() => toggleMobileAccordion('prompt')}
             >
-              {t('nav.lessons')}
-              <i className={`fa-solid fa-chevron-down mobile-accordion-arrow ${mobileLessonsOpen ? 'rotated' : ''}`} />
+              {t('nav.prompt')}
+              <i className={`fa-solid fa-chevron-down mobile-accordion-arrow ${mobileAccordion === 'prompt' ? 'rotated' : ''}`} />
             </button>
-            <div className={`mobile-accordion-content ${mobileLessonsOpen ? 'open' : ''}`}>
-              <Link to="/lessons" className="mobile-sub-link mobile-sub-all">
-                <i className="fa-solid fa-th-large" /> {language === 'ko' ? '전체 카테고리' : 'All Categories'}
+            <div className={`mobile-accordion-content ${mobileAccordion === 'prompt' ? 'open' : ''}`}>
+              <Link to="/lessons/prompt" className="mobile-sub-link mobile-sub-all">
+                <i className="fa-solid fa-wand-magic-sparkles" /> {language === 'ko' ? '전체 보기' : 'View All'}
               </Link>
-              {LESSON_CATEGORIES.map(cat => (
-                <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="mobile-sub-link">
-                  <i className={`fa-solid ${cat.icon}`} /> {language === 'ko' ? cat.nameKo : cat.nameEn}
+              {promptCategory && promptCategory.lessons.map(lesson => (
+                <Link key={lesson.slug} to={`/lessons/prompt/${lesson.slug}`} className="mobile-sub-link">
+                  <i className="fa-solid fa-wand-magic-sparkles" /> {language === 'ko' ? lesson.titleKo : lesson.titleEn}
                 </Link>
               ))}
             </div>
           </li>
+
           <li>
             <Link to="/community/board" className="mobile-nav-link">{t('nav.community')}</Link>
           </li>

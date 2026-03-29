@@ -333,6 +333,57 @@
     line-height: 1.6;
 }
 
+/* AI Tools Grid (Home page category cards) */
+.ai-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+.ai-tool-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-base);
+}
+.ai-tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-blue-light);
+}
+.ai-tool-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border-radius: var(--radius-md);
+    background: var(--bg-light-gray);
+    color: var(--primary-blue);
+    flex-shrink: 0;
+}
+.ai-tool-card:hover .ai-tool-icon {
+    background: var(--primary-gradient);
+    color: var(--text-white);
+}
+.ai-tool-info h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+.ai-tool-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
 /* Stats Section */
 .stats-section {
     padding: 60px 0;

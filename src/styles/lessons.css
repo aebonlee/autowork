@@ -87,6 +87,28 @@
   color: var(--text-light);
 }
 
+/* Category Groups */
+.category-group {
+  margin-bottom: 48px;
+}
+
+.category-group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary-blue, #1B3A6B);
+}
+
+.category-group-title i {
+  color: var(--primary-blue, #1B3A6B);
+  font-size: 1.1rem;
+}
+
 /* Lesson List */
 .lesson-list-header {
   display: flex;
