@@ -3,7 +3,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
-import { getCategoriesByGroup } from '../../config/lessons';
+import { LESSON_CATEGORIES, MENU_GROUPS, getCategoriesByGroup } from '../../config/lessons';
+
+const promptCategory = LESSON_CATEGORIES.find(c => c.slug === 'prompt');
+
+const MOBILE_GROUPS = [
+  ...MENU_GROUPS,
+  { id: 'prompt', nameKo: '프롬프트 학습', nameEn: 'Prompt Learning', icon: 'fa-wand-magic-sparkles', categorySlugs: ['prompt'] },
+];
 
 export default function Navbar() {
   const { mode, toggleTheme, colorTheme, setColorTheme, COLOR_OPTIONS } = useTheme();
@@ -16,6 +23,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [mobileAccordion, setMobileAccordion] = useState(null);
   const colorPickerRef = useRef(null);
   const userMenuRef = useRef(null);
 
@@ -27,7 +35,14 @@ export default function Navbar() {
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setMobileAccordion(null);
   }, [location.pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileMenuOpen]);
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -47,13 +62,17 @@ export default function Navbar() {
     navigate('/');
   }
 
-  // Check if a menu group's categories include the current path
   function isGroupActive(groupId) {
+    if (groupId === 'prompt') return location.pathname.startsWith('/lessons/prompt');
     const categories = getCategoriesByGroup(groupId);
     return categories.some(cat => location.pathname.startsWith(`/lessons/${cat.slug}`));
   }
 
-  // Clean flat menu items — no dropdowns
+  function toggleMobileAccordion(id) {
+    setMobileAccordion(prev => prev === id ? null : id);
+  }
+
+  // Desktop menu items — flat links
   const menuItems = [
     { to: '/intro', label: t('nav.intro'), isActive: location.pathname === '/intro' },
     { to: '/lessons/basics', label: t('nav.oaAutomation'), isActive: isGroupActive('oa') },
@@ -72,6 +91,7 @@ export default function Navbar() {
             <span className="logo-ai">Work</span>
           </Link>
 
+          {/* Desktop Nav */}
           <ul className="nav-links">
             {menuItems.map(item => (
               <li key={item.to} className="nav-item">
@@ -150,30 +170,123 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile Menu — flat links, no accordions */}
+      {/* ── Mobile Menu with Accordion Submenus ── */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <ul className="mobile-nav-links">
-          {menuItems.map(item => (
-            <li key={item.to}>
-              <Link to={item.to} className={`mobile-nav-link ${item.isActive ? 'active' : ''}`}>
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          {/* About — direct link */}
+          <li>
+            <Link
+              to="/intro"
+              className={`mobile-nav-link ${location.pathname === '/intro' ? 'active' : ''}`}
+            >
+              <i className="fa-solid fa-info-circle mobile-nav-icon" />
+              <span>About</span>
+            </Link>
+          </li>
+
+          {/* Groups with accordion submenus (2nd level: categories) */}
+          {MOBILE_GROUPS.map(group => {
+            const categories = group.id === 'prompt'
+              ? [promptCategory].filter(Boolean)
+              : getCategoriesByGroup(group.id);
+            const isOpen = mobileAccordion === group.id;
+            const isActive = isGroupActive(group.id);
+
+            return (
+              <li key={group.id}>
+                <button
+                  className={`mobile-nav-link mobile-accordion-btn ${isActive ? 'active' : ''}`}
+                  onClick={() => toggleMobileAccordion(group.id)}
+                >
+                  <i className={`fa-solid ${group.icon} mobile-nav-icon`} />
+                  <span>{language === 'ko' ? group.nameKo : group.nameEn}</span>
+                  <i className={`fa-solid fa-chevron-down mobile-accordion-arrow ${isOpen ? 'open' : ''}`} />
+                </button>
+                {isOpen && (
+                  <ul className="mobile-sub-menu">
+                    {categories.map(cat => (
+                      <li key={cat.slug}>
+                        <Link
+                          to={`/lessons/${cat.slug}`}
+                          className={`mobile-sub-link ${location.pathname.startsWith(`/lessons/${cat.slug}`) ? 'active' : ''}`}
+                        >
+                          <i className={`fa-solid ${cat.icon}`} />
+                          <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                          <span className="mobile-sub-count">{cat.lessons.length}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            );
+          })}
+
+          {/* Community — direct link */}
+          <li>
+            <Link
+              to="/community/board"
+              className={`mobile-nav-link ${location.pathname.startsWith('/community') ? 'active' : ''}`}
+            >
+              <i className="fa-solid fa-users mobile-nav-icon" />
+              <span>{t('nav.community')}</span>
+            </Link>
+          </li>
+
+          {/* Dashboard / Settings for logged in users */}
           {isLoggedIn && (
             <>
-              <li><Link to="/dashboard" className="mobile-nav-link">{t('nav.dashboard')}</Link></li>
-              <li><Link to="/settings" className="mobile-nav-link">{t('nav.settings')}</Link></li>
+              <li className="mobile-nav-divider" />
+              <li>
+                <Link to="/dashboard" className="mobile-nav-link">
+                  <i className="fa-solid fa-chart-pie mobile-nav-icon" />
+                  <span>{t('nav.dashboard')}</span>
+                </Link>
+              </li>
+              <li>
+                <Link to="/settings" className="mobile-nav-link">
+                  <i className="fa-solid fa-gear mobile-nav-icon" />
+                  <span>{t('nav.settings')}</span>
+                </Link>
+              </li>
             </>
           )}
         </ul>
+
+        {/* Controls: Theme / Language / Color */}
+        <div className="mobile-menu-controls">
+          <button className="mobile-ctrl-btn" onClick={toggleTheme} title={mode}>
+            {themeIcon}
+          </button>
+          <button className="mobile-ctrl-btn" onClick={toggleLanguage}>
+            {language === 'ko' ? 'EN' : 'KO'}
+          </button>
+          <div className="mobile-color-row">
+            {COLOR_OPTIONS.map(opt => (
+              <button
+                key={opt.name}
+                className={`mobile-color-dot ${colorTheme === opt.name ? 'active' : ''}`}
+                style={{ background: opt.color }}
+                onClick={() => setColorTheme(opt.name)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Auth Buttons */}
         <div className="mobile-menu-actions">
           {isLoggedIn ? (
-            <button className="btn btn-primary btn-sm" onClick={handleSignOut}>{t('nav.logout')}</button>
+            <button className="btn btn-primary btn-sm" style={{ width: '100%' }} onClick={handleSignOut}>
+              {t('nav.logout')}
+            </button>
           ) : (
             <>
-              <Link to="/login" className="btn btn-primary btn-sm">{t('nav.login')}</Link>
-              <Link to="/register" className="btn btn-secondary btn-sm">{t('nav.register')}</Link>
+              <Link to="/login" className="btn btn-primary btn-sm" style={{ width: '100%', textAlign: 'center' }}>
+                {t('nav.login')}
+              </Link>
+              <Link to="/register" className="btn btn-secondary btn-sm" style={{ width: '100%', textAlign: 'center' }}>
+                {t('nav.register')}
+              </Link>
             </>
           )}
         </div>

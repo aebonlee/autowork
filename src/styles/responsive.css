@@ -1,34 +1,22 @@
 /* ============================================
-   Teaching AI - Responsive
-   3 Breakpoints: 1100px / 1024px / 768px
+   AutoWork - Global Responsive
+   Standard Breakpoints:
+     1200px - Desktop → Mobile nav
+     1024px - Tablet landscape
+      768px - Tablet portrait / large phone
+      480px - Small phone
    ============================================ */
 
-@media (max-width: 1100px) {
-    .nav-links { display: none; }
-    .navbar-actions .color-picker-wrapper,
-    .navbar-actions .lang-toggle {
-        display: none;
-    }
-    .mobile-menu-toggle { display: flex; }
-
-    .hero-title { font-size: 42px; }
-    .hero-description { font-size: 17px; }
-
-    .ai-two-column {
-        grid-template-columns: 1fr;
-    }
-    .ai-input-panel {
-        position: static;
-    }
-
+/* ── 1200px: Desktop → Mobile transition ── */
+@media (max-width: 1200px) {
     .footer-content {
         grid-template-columns: 1fr 1fr;
     }
 }
 
+/* ── 1024px: Tablet Landscape ── */
 @media (max-width: 1024px) {
     .container { padding: 0 24px; }
-    .navbar-inner { padding: 0 24px; }
 
     .hero { padding-bottom: 72px; }
     .hero-title { font-size: 38px; }
@@ -41,16 +29,20 @@
     .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 
     .carousel-arrow { display: none; }
+
+    .ai-two-column { grid-template-columns: 1fr; }
+    .ai-input-panel { position: static; }
 }
 
+/* ── 768px: Tablet Portrait / Large Phone ── */
 @media (max-width: 768px) {
     :root {
         --nav-height: 64px;
         --section-padding: 56px;
     }
     .container { padding: 0 20px; }
-    .navbar-inner { padding: 0 16px; }
 
+    /* Hero */
     .hero {
         min-height: auto;
         padding-top: calc(var(--nav-height) + 32px);
@@ -60,18 +52,20 @@
     .hero-description { font-size: 15px; margin-bottom: 28px; }
     .hero-buttons { flex-direction: column; }
     .hero-buttons .btn { width: 100%; justify-content: center; }
-
     .hero-badge { font-size: 12px; padding: 6px 12px; }
     .carousel-dots { bottom: 16px; gap: 10px; }
     .carousel-dot { width: 10px; height: 10px; }
     .scroll-indicator { display: none; }
 
-    .section-title { font-size: 28px; }
-    .section-subtitle { font-size: 15px; }
+    /* Section Typography */
+    .section-title { font-size: 26px; }
+    .section-subtitle { font-size: 14px; }
 
+    /* Grids */
     .features-grid { grid-template-columns: 1fr; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
     .stat-number { font-size: 36px; }
+    .ai-tools-grid { grid-template-columns: 1fr; }
 
     /* AI Tools */
     .ai-page-header { padding: calc(var(--nav-height) + 24px) 0 32px; }
@@ -81,9 +75,6 @@
     .provider-select { gap: 6px; }
     .provider-chip { padding: 6px 12px; font-size: 12px; }
     .export-toolbar { flex-wrap: wrap; }
-
-    /* AI Tool Cards */
-    .ai-tools-grid { grid-template-columns: 1fr; }
 
     /* Footer */
     .footer { padding: 48px 0 24px; }
@@ -124,9 +115,9 @@
     .btn-primary-large { padding: 14px 32px; font-size: 16px; }
 }
 
+/* ── 480px: Small Phone ── */
 @media (max-width: 480px) {
     .hero-title { font-size: 28px; }
     .stat-number { font-size: 28px; }
     .quick-access-grid { grid-template-columns: 1fr; }
-    .navbar-logo { font-size: 18px; }
 }

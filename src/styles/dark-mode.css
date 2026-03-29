@@ -228,3 +228,35 @@
     border-color: var(--border-light);
     color: var(--text-primary);
 }
+
+/* Home page sections dark */
+[data-theme="dark"] .home-hl-card,
+[data-theme="dark"] .home-cur-card,
+[data-theme="dark"] .home-cta-inner {
+    background: var(--bg-white);
+    border-color: var(--border-light);
+}
+[data-theme="dark"] .home-hl-card:hover,
+[data-theme="dark"] .home-cur-card:hover {
+    border-color: var(--primary-blue-light);
+}
+[data-theme="dark"] .home-cur-card-icon {
+    background: var(--bg-light-gray);
+}
+[data-theme="dark"] .home-hl-icon {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+[data-theme="dark"] .section-badge {
+    background: rgba(61, 109, 181, 0.12);
+    border-color: rgba(61, 109, 181, 0.2);
+}
+[data-theme="dark"] .home-path-icon {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+[data-theme="dark"] .mobile-sub-count {
+    background: var(--bg-light-gray);
+}
+[data-theme="dark"] .mobile-ctrl-btn {
+    background: var(--bg-light-gray);
+    border-color: var(--border-light);
+}
