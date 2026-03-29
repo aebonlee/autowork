@@ -73,7 +73,7 @@ export default function Board() {
 
         <div className="board-filters">
           <div className="board-search">
-            <span className="search-icon">\uD83D\uDD0D</span>
+            <span className="search-icon"><i className="fa-solid fa-search" /></span>
             <input
               type="text"
               placeholder={t('community.search')}
@@ -83,7 +83,7 @@ export default function Board() {
           </div>
           {isLoggedIn && (
             <Link to="/community/board/write" className="board-write-btn">
-              \u270F\uFE0F {t('community.write')}
+              <i className="fa-solid fa-pen" />{t('community.write')}
             </Link>
           )}
         </div>
@@ -112,8 +112,8 @@ export default function Board() {
                     </div>
                   </div>
                   <div className="board-card-stats">
-                    <span>\uD83D\uDC41\uFE0F {post.views || 0}</span>
-                    <span>\uD83D\uDCAC {post.comment_count || 0}</span>
+                    <span><i className="fa-solid fa-eye" />{post.views || 0}</span>
+                    <span><i className="fa-solid fa-comment" />{post.comment_count || 0}</span>
                   </div>
                 </Link>
               );
@@ -121,7 +121,7 @@ export default function Board() {
           </div>
         ) : (
           <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-light)' }}>
-            <p style={{ fontSize: '48px', marginBottom: '12px', opacity: 0.3 }}>\uD83D\uDCAC</p>
+            <p style={{ fontSize: '48px', marginBottom: '12px', opacity: 0.3 }}><i className="fa-solid fa-comments" style={{ fontSize: '48px' }} /></p>
             <p>{language === 'ko' ? '게시글이 없습니다.' : 'No posts yet.'}</p>
           </div>
         )}

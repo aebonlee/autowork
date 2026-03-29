@@ -133,7 +133,7 @@ export default function BoardDetail() {
             <div className="board-detail-meta">
               <span>{post.author_name || 'Anonymous'}</span>
               <span>{new Date(post.created_at).toLocaleDateString()}</span>
-              <span>\uD83D\uDC41\uFE0F {post.views || 0}</span>
+              <span><i className="fa-solid fa-eye" />{post.views || 0}</span>
             </div>
           </div>
           <div className="board-detail-body" dangerouslySetInnerHTML={{ __html: post.content?.replace(/\n/g, '<br/>') }} />
@@ -141,10 +141,10 @@ export default function BoardDetail() {
           {isOwner && (
             <div className="board-actions">
               <Link to={`/community/board/write?edit=${id}`} className="btn-edit">
-                \u270F\uFE0F {t('community.edit')}
+                <i className="fa-solid fa-pen" />{t('community.edit')}
               </Link>
               <button className="btn-delete" onClick={() => setConfirmDelete('post')}>
-                \uD83D\uDDD1\uFE0F {t('community.delete')}
+                <i className="fa-solid fa-trash" />{t('community.delete')}
               </button>
             </div>
           )}

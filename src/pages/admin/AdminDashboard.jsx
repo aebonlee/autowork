@@ -32,9 +32,9 @@ export default function AdminDashboard() {
       <aside className="admin-sidebar">
         <h3>ADMIN</h3>
         <ul className="admin-nav">
-          <li><a className="admin-nav-item active" href="#">\uD83D\uDCCA {language === 'ko' ? '대시보드' : 'Dashboard'}</a></li>
-          <li><a className="admin-nav-item" href="#">\uD83D\uDC65 {language === 'ko' ? '사용자 관리' : 'Users'}</a></li>
-          <li><a className="admin-nav-item" href="#">\uD83D\uDCC4 {language === 'ko' ? '게시글 관리' : 'Posts'}</a></li>
+          <li><a className="admin-nav-item active" href="#"><i className="fa-solid fa-chart-bar" />{language === 'ko' ? '대시보드' : 'Dashboard'}</a></li>
+          <li><a className="admin-nav-item" href="#"><i className="fa-solid fa-users" />{language === 'ko' ? '사용자 관리' : 'Users'}</a></li>
+          <li><a className="admin-nav-item" href="#"><i className="fa-solid fa-file-lines" />{language === 'ko' ? '게시글 관리' : 'Posts'}</a></li>
         </ul>
       </aside>
 

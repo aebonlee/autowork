@@ -21,7 +21,7 @@ export default function Settings() {
   }
 
   const tabs = [
-    { id: 'profile', label: '\uD83D\uDC64 ' + t('settings.profile') },
+    { id: 'profile', label: t('settings.profile') },
   ];
 
   return (

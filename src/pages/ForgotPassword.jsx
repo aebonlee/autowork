@@ -33,7 +33,7 @@ export default function ForgotPassword() {
 
           {sent ? (
             <div style={{ textAlign: 'center', padding: '20px 0' }}>
-              <p style={{ fontSize: '48px', marginBottom: '16px' }}>\u2709\uFE0F</p>
+              <p style={{ fontSize: '48px', marginBottom: '16px' }}><i className="fa-solid fa-envelope" /></p>
               <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
                 {language === 'ko' ? `${email} 으로 재설정 링크를 발송했습니다.` : `Reset link sent to ${email}.`}
               </p>

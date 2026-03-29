@@ -31,9 +31,9 @@ export default function Dashboard() {
 
         <div className="dashboard-grid">
           <div className="dashboard-card">
-            <h3>\uD83D\uDCDA {t('dashboard.recentLessons')}</h3>
+            <h3><i className="fa-solid fa-book" />{t('dashboard.recentLessons')}</h3>
             <div className="dashboard-empty">
-              <div className="dashboard-empty-icon">\uD83D\uDCDD</div>
+              <div className="dashboard-empty-icon"><i className="fa-solid fa-pen-to-square" /></div>
               <p>{t('dashboard.noRecent')}</p>
               <Link to="/lessons" className="btn btn-primary btn-sm" style={{ marginTop: '12px' }}>
                 {t('nav.lessons')}
@@ -42,7 +42,7 @@ export default function Dashboard() {
           </div>
 
           <div className="dashboard-card">
-            <h3>\uD83D\uDCCA {t('dashboard.progress')}</h3>
+            <h3><i className="fa-solid fa-chart-bar" />{t('dashboard.progress')}</h3>
             <div className="usage-stats-list">
               {LESSON_CATEGORIES.map(cat => (
                 <div key={cat.slug} className="usage-stat-item">

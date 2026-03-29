@@ -40,7 +40,7 @@ export default function Login() {
               {t('auth.google')}
             </button>
             <button className="social-btn social-btn-kakao" onClick={signInWithKakao}>
-              \uD83D\uDCAC {t('auth.kakao')}
+              <i className="fa-solid fa-comment" />{t('auth.kakao')}
             </button>
           </div>
 
