@@ -162,7 +162,11 @@ function RoadmapSection({ language }) {
                   <span key={j} className="intro-roadmap-category">{cat}</span>
                 ))}
               </div>
-              {i < levels.length - 1 && <div className="intro-roadmap-arrow">\u2193</div>}
+              {i < levels.length - 1 && (
+                <div className="intro-roadmap-arrow">
+                  <i className="fa-solid fa-angles-down" />
+                </div>
+              )}
             </div>
           ))}
         </div>
