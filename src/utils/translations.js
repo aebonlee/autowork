@@ -2,7 +2,7 @@ const translations = {
   ko: {
     nav: {
       home: '홈',
-      intro: '사이트 소개',
+      intro: 'About',
       lessons: '학습하기',
       excel: '엑셀 자동화',
       python: 'Python 자동화',
