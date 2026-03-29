@@ -36,12 +36,16 @@ export default function LessonsSidebar({ isOpen, onClose }) {
   // Track which categories are expanded
   const [expanded, setExpanded] = useState({});
 
-  // Auto-expand all categories in the active group
+  // Auto-expand only the first category (or the active one) in the group
   useEffect(() => {
     const newExpanded = {};
-    activeGroup.categorySlugs.forEach(slug => { newExpanded[slug] = true; });
+    if (activeCategorySlug && activeGroup.categorySlugs.includes(activeCategorySlug)) {
+      newExpanded[activeCategorySlug] = true;
+    } else if (categories.length > 0) {
+      newExpanded[categories[0].slug] = true;
+    }
     setExpanded(newExpanded);
-  }, [activeGroup]);
+  }, [activeGroup, activeCategorySlug, categories]);
 
   function toggleCategory(slug) {
     setExpanded(prev => ({ ...prev, [slug]: !prev[slug] }));
