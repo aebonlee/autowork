@@ -14,31 +14,25 @@ export default function LessonsSidebar({ isOpen, onClose, toc = [] }) {
   const location = useLocation();
   const { language } = useLanguage();
 
-  // Parse active category/lesson from URL
   const match = location.pathname.match(/^\/lessons\/([^/]+)(?:\/([^/]+))?/);
   const activeCategorySlug = match?.[1];
   const activeLessonSlug = match?.[2];
 
-  // Determine which group is active based on current category
   const activeGroup = useMemo(() => {
     if (activeCategorySlug) {
       return ALL_GROUPS.find(g => g.categorySlugs.includes(activeCategorySlug)) || ALL_GROUPS[0];
     }
-    return ALL_GROUPS[0]; // default to OA on /lessons index
+    return ALL_GROUPS[0];
   }, [activeCategorySlug]);
 
-  // Get only the active group's categories
   const categories = useMemo(() => {
     if (activeGroup.id === 'prompt') return [promptCategory].filter(Boolean);
     return getCategoriesByGroup(activeGroup.id);
   }, [activeGroup]);
 
-  // Track which categories are expanded
   const [expanded, setExpanded] = useState({});
-  // Track if TOC section is expanded
   const [tocExpanded, setTocExpanded] = useState(true);
 
-  // Auto-expand only the first category (or the active one) in the group
   useEffect(() => {
     const newExpanded = {};
     if (activeCategorySlug && activeGroup.categorySlugs.includes(activeCategorySlug)) {
@@ -54,73 +48,74 @@ export default function LessonsSidebar({ isOpen, onClose, toc = [] }) {
   }
 
   return (
-    <>
-      {isOpen && <div className="aw-sidebar-overlay" onClick={onClose} />}
-      <aside className={`aw-sidebar ${isOpen ? 'open' : ''}`}>
-        <div className="aw-sb-header">
+    <aside className={`ck-sidebar ${isOpen ? 'ck-sidebar--open' : ''}`}>
+      <div className="ck-sidebar-header">
+        <h3>
           <i className={`fa-solid ${activeGroup.icon}`} />
-          <span>{language === 'ko' ? activeGroup.nameKo : activeGroup.nameEn}</span>
-        </div>
-        <nav className="aw-sb-nav">
-          {categories.map(cat => {
-            const isExpanded = expanded[cat.slug];
-            const isCatActive = activeCategorySlug === cat.slug;
+          {language === 'ko' ? activeGroup.nameKo : activeGroup.nameEn}
+        </h3>
+      </div>
+      <nav className="ck-sidebar-nav">
+        {categories.map(cat => {
+          const isExpanded = expanded[cat.slug];
+          const isCatActive = activeCategorySlug === cat.slug;
 
-            return (
-              <div key={cat.slug} className="aw-nav-group">
-                <button
-                  className={`aw-nav-parent ${isCatActive ? 'active' : ''}`}
-                  onClick={() => toggleCategory(cat.slug)}
-                >
-                  <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
-                  <i className={`fa-solid fa-chevron-down aw-nav-arrow ${isExpanded ? 'open' : ''}`} />
-                </button>
-                {isExpanded && (
-                  <div className="aw-nav-children">
-                    {cat.lessons.map(lesson => {
-                      const isActive = isCatActive && activeLessonSlug === lesson.slug;
-                      return (
-                        <div key={lesson.slug}>
-                          <Link
-                            to={`/lessons/${cat.slug}/${lesson.slug}`}
-                            className={`aw-nav-child ${isActive ? 'active' : ''}`}
-                            onClick={onClose}
-                          >
-                            <span>{language === 'ko' ? lesson.titleKo : lesson.titleEn}</span>
-                          </Link>
-                          {/* TOC under active lesson */}
-                          {isActive && toc.length > 0 && (
-                            <div className="aw-toc-section">
-                              <button className="aw-toc-toggle" onClick={() => setTocExpanded(prev => !prev)}>
-                                <span>{language === 'ko' ? '목차' : 'Contents'}</span>
-                                <i className={`fa-solid fa-chevron-down aw-nav-arrow ${tocExpanded ? 'open' : ''}`} />
-                              </button>
-                              {tocExpanded && (
-                                <div className="aw-toc-items">
-                                  {toc.map((h, i) => (
-                                    <a
-                                      key={i}
-                                      href={`#${h.id}`}
-                                      className={`aw-toc-item aw-toc-level-${h.level}`}
-                                      onClick={onClose}
-                                    >
-                                      {h.text}
-                                    </a>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </nav>
-      </aside>
-    </>
+          return (
+            <div key={cat.slug} className="ck-nav-group">
+              <button
+                className={`ck-nav-parent ${isCatActive && !activeLessonSlug ? 'ck-nav--active' : ''}`}
+                onClick={() => toggleCategory(cat.slug)}
+              >
+                <i className={`fa-solid ${cat.icon}`} />
+                <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                <i className={`fa-solid fa-chevron-${isExpanded ? 'up' : 'down'} ck-nav-arrow`} />
+              </button>
+              {isExpanded && (
+                <div className="ck-nav-children">
+                  {cat.lessons.map(lesson => {
+                    const isActive = isCatActive && activeLessonSlug === lesson.slug;
+                    return (
+                      <div key={lesson.slug}>
+                        <Link
+                          to={`/lessons/${cat.slug}/${lesson.slug}`}
+                          className={`ck-nav-child ${isActive ? 'ck-nav--active' : ''}`}
+                          onClick={onClose}
+                        >
+                          <span>{language === 'ko' ? lesson.titleKo : lesson.titleEn}</span>
+                        </Link>
+                        {/* TOC under active lesson */}
+                        {isActive && toc.length > 0 && (
+                          <div className="ck-toc-section">
+                            <button className="ck-toc-toggle" onClick={() => setTocExpanded(prev => !prev)}>
+                              <i className="fa-solid fa-list-ul" />
+                              <span>{language === 'ko' ? '목차' : 'Contents'}</span>
+                              <i className={`fa-solid fa-chevron-${tocExpanded ? 'up' : 'down'} ck-nav-arrow`} />
+                            </button>
+                            {tocExpanded && (
+                              <div className="ck-toc-items">
+                                {toc.map((h, i) => (
+                                  <a
+                                    key={i}
+                                    href={`#${h.id}`}
+                                    className={`ck-toc-item ck-toc-level-${h.level}`}
+                                    onClick={onClose}
+                                  >
+                                    {h.text}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </nav>
+    </aside>
   );
 }

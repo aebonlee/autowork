@@ -1,10 +1,12 @@
-import { Suspense, lazy, useState, useCallback } from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Suspense, lazy, useState, useCallback, useMemo } from 'react';
+import { Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import LessonsSidebar from '../components/layout/LessonsSidebar';
 import AuthGuard from '../components/AuthGuard';
 import AdminGuard from '../components/AdminGuard';
+import { useLanguage } from '../contexts/LanguageContext';
+import { MENU_GROUPS } from '../config/lessons';
 
 const Home = lazy(() => import('../pages/Home'));
 const IntroPage = lazy(() => import('../pages/intro/IntroPage'));
@@ -30,22 +32,47 @@ function LoadingFallback() {
   );
 }
 
+const ALL_GROUPS = [
+  ...MENU_GROUPS,
+  { id: 'prompt', nameKo: '프롬프트 학습', nameEn: 'Prompt Learning', icon: 'fa-wand-magic-sparkles', categorySlugs: ['prompt'] },
+];
+
 function LessonsLayout() {
+  const { language } = useLanguage();
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [toc, setToc] = useState([]);
   const updateToc = useCallback((headings) => setToc(headings || []), []);
+
+  // Determine current group label for mobile toggle
+  const currentGroupLabel = useMemo(() => {
+    const match = location.pathname.match(/^\/lessons\/([^/]+)/);
+    const slug = match?.[1];
+    if (slug) {
+      const group = ALL_GROUPS.find(g => g.categorySlugs.includes(slug));
+      if (group) return language === 'ko' ? group.nameKo : group.nameEn;
+    }
+    return language === 'ko' ? '학습 메뉴' : 'Lessons Menu';
+  }, [location.pathname, language]);
+
   return (
-    <div className="aw-lessons-layout">
-      <LessonsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} toc={toc} />
-      <div className="aw-main">
-        <button
-          className="aw-sidebar-toggle"
-          onClick={() => setSidebarOpen(prev => !prev)}
-          aria-label="Toggle sidebar"
-        >
-          <i className="fa-solid fa-bars" />
+    <div className="ck-page">
+      <div className="container">
+        {/* Mobile sidebar toggle — same style as About */}
+        <button className="ck-sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <i className="fa-solid fa-bars" /> {currentGroupLabel}
         </button>
-        <Outlet context={{ setToc: updateToc }} />
+
+        <div className="ck-layout">
+          <LessonsSidebar
+            isOpen={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            toc={toc}
+          />
+          <div className="ck-main">
+            <Outlet context={{ setToc: updateToc }} />
+          </div>
+        </div>
       </div>
     </div>
   );
