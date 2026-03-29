@@ -109,6 +109,84 @@
   font-size: 1.1rem;
 }
 
+/* Category Lesson Sections (LessonCategories page) */
+.category-lesson-section {
+  margin-bottom: 24px;
+}
+
+.category-section-header {
+  margin-bottom: 8px;
+}
+
+.category-section-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+.category-section-name:hover {
+  color: var(--primary-blue);
+}
+.category-section-name i {
+  color: var(--primary-blue);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.category-lessons-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 24px;
+  border-left: 2px solid var(--border-color, #e5e7eb);
+  margin-left: 6px;
+}
+
+.category-lesson-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 14px;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.category-lesson-item:hover {
+  background: var(--primary-blue);
+  color: white;
+}
+
+.category-lesson-num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  min-width: 24px;
+}
+.category-lesson-item:hover .category-lesson-num {
+  color: rgba(255,255,255,0.8);
+}
+
+.category-lesson-title {
+  flex: 1;
+  font-weight: 500;
+}
+
+.category-lesson-duration {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+.category-lesson-item:hover .category-lesson-duration {
+  color: rgba(255,255,255,0.7);
+}
+
 /* Lesson List */
 .lesson-list-header {
   display: flex;
