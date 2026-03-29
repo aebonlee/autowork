@@ -34,7 +34,7 @@
     .hero-title { font-size: 38px; }
     .hero-content { max-width: 100%; }
 
-    .section-title { font-size: 34px; }
+    .section-title { font-size: 30px; }
     .section-header { margin-bottom: 48px; }
 
     .features-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
