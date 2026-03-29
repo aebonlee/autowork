@@ -1,0 +1,59 @@
+import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import { useLanguage } from '../contexts/LanguageContext';
+import { LESSON_CATEGORIES } from '../config/lessons';
+
+export default function Dashboard() {
+  const { user, profile } = useAuth();
+  const { language, t } = useLanguage();
+
+  const displayName = profile?.display_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || '';
+
+  return (
+    <div className="dashboard-page">
+      <div className="container">
+        <div className="dashboard-welcome">
+          <h1>{displayName}{t('dashboard.welcome')}</h1>
+          <p>{language === 'ko' ? '업무자동화 학습을 시작하세요.' : 'Start learning work automation.'}</p>
+        </div>
+
+        <div className="quick-access">
+          <h2>{language === 'ko' ? '학습 카테고리' : 'Learning Categories'}</h2>
+          <div className="quick-access-grid">
+            {LESSON_CATEGORIES.slice(0, 6).map(cat => (
+              <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="quick-access-card">
+                <div className="quick-access-icon">{cat.icon}</div>
+                <span className="quick-access-label">{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        <div className="dashboard-grid">
+          <div className="dashboard-card">
+            <h3>\uD83D\uDCDA {t('dashboard.recentLessons')}</h3>
+            <div className="dashboard-empty">
+              <div className="dashboard-empty-icon">\uD83D\uDCDD</div>
+              <p>{t('dashboard.noRecent')}</p>
+              <Link to="/lessons" className="btn btn-primary btn-sm" style={{ marginTop: '12px' }}>
+                {t('nav.lessons')}
+              </Link>
+            </div>
+          </div>
+
+          <div className="dashboard-card">
+            <h3>\uD83D\uDCCA {t('dashboard.progress')}</h3>
+            <div className="usage-stats-list">
+              {LESSON_CATEGORIES.map(cat => (
+                <div key={cat.slug} className="usage-stat-item">
+                  <span className="usage-stat-label">{cat.icon} {language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                  <span className="usage-stat-value">0/{cat.lessons.length}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
