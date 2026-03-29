@@ -68,9 +68,7 @@ export default function LessonCategories() {
                       >
                         <span className="category-lesson-num">{String(i + 1).padStart(2, '0')}</span>
                         <span className="category-lesson-title">{language === 'ko' ? lesson.titleKo : lesson.titleEn}</span>
-                        <span className="category-lesson-duration">
-                          <i className="fa-regular fa-clock" /> {lesson.duration}{t('lessons.duration')}
-                        </span>
+                        <span className="category-lesson-desc">{language === 'ko' ? lesson.descKo : lesson.descEn}</span>
                       </Link>
                     ))}
                   </div>

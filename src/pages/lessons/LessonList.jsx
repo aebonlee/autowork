@@ -57,9 +57,7 @@ export default function LessonList() {
               <div className="lesson-list-number">{String(i + 1).padStart(2, '0')}</div>
               <div className="lesson-list-info">
                 <h3>{language === 'ko' ? lesson.titleKo : lesson.titleEn}</h3>
-                <span className="lesson-list-duration">
-                  <i className="fa-regular fa-clock" /> {lesson.duration} {t('lessons.duration')}
-                </span>
+                <span className="lesson-list-desc">{language === 'ko' ? lesson.descKo : lesson.descEn}</span>
               </div>
               <i className="fa-solid fa-chevron-right lesson-list-arrow" />
             </Link>

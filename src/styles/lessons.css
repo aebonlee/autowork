@@ -178,12 +178,13 @@
   font-weight: 500;
 }
 
-.category-lesson-duration {
+.category-lesson-desc {
   font-size: 0.75rem;
   color: var(--text-light);
-  white-space: nowrap;
+  flex: 2;
+  line-height: 1.4;
 }
-.category-lesson-item:hover .category-lesson-duration {
+.category-lesson-item:hover .category-lesson-desc {
   color: rgba(255,255,255,0.7);
 }
 
@@ -241,7 +242,7 @@
   border-color: var(--primary-blue);
 }
 
-.lesson-list-item:hover .lesson-list-duration,
+.lesson-list-item:hover .lesson-list-desc,
 .lesson-list-item:hover .lesson-list-arrow {
   color: rgba(255,255,255,0.8);
 }
@@ -268,9 +269,10 @@
   margin-bottom: 4px;
 }
 
-.lesson-list-duration {
-  font-size: 0.8rem;
+.lesson-list-desc {
+  font-size: 0.82rem;
   color: var(--text-light);
+  line-height: 1.4;
 }
 
 .lesson-list-arrow {
