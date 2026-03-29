@@ -92,14 +92,14 @@ function AboutSection({ t }) {
 function GuideSection({ language, t }) {
   const steps = language === 'ko' ? [
     { title: '회원가입 / 로그인', desc: 'Google 또는 카카오 계정으로 간편 로그인하세요.' },
-    { title: '카테고리 선택', desc: '10개 학습 카테고리에서 관심 있는 분야를 선택하세요.' },
+    { title: '카테고리 선택', desc: '11개 학습 카테고리에서 관심 있는 분야를 선택하세요.' },
     { title: '레슨 학습', desc: '체계적인 레슨을 순서대로 학습하세요.' },
     { title: '코드 실습', desc: '예제 코드를 직접 실행하고 응용해 보세요.' },
     { title: '커뮤니티 참여', desc: '질문을 올리고 경험을 공유하세요.' },
     { title: '실전 프로젝트', desc: '실무 시나리오 기반 프로젝트로 실력을 완성하세요.' },
   ] : [
     { title: 'Sign Up / Login', desc: 'Sign in easily with Google or Kakao.' },
-    { title: 'Choose Category', desc: 'Select a topic from 10 learning categories.' },
+    { title: 'Choose Category', desc: 'Select a topic from 11 learning categories.' },
     { title: 'Study Lessons', desc: 'Follow structured lessons step by step.' },
     { title: 'Practice Code', desc: 'Run example code and try variations.' },
     { title: 'Join Community', desc: 'Ask questions and share experiences.' },
@@ -135,11 +135,11 @@ function GuideSection({ language, t }) {
 function RoadmapSection({ language }) {
   const levels = language === 'ko' ? [
     { level: '입문', color: '#00855A', categories: ['업무자동화 기초', 'Excel/스프레드시트 자동화', '노코드/로코드 자동화'] },
-    { level: '중급', color: '#C87200', categories: ['Python 업무자동화', 'RPA 도구 활용', '문서/이메일 자동화', '데이터 수집/분석 자동화'] },
+    { level: '중급', color: '#C87200', categories: ['Python 업무자동화', 'RPA 도구 활용', '문서/이메일 자동화', '데이터 수집/분석 자동화', '프롬프트 학습'] },
     { level: '고급', color: '#C8102E', categories: ['AI 활용 업무자동화', '워크플로우 설계', '실전 프로젝트'] },
   ] : [
     { level: 'Beginner', color: '#00855A', categories: ['Automation Basics', 'Excel/Spreadsheet Automation', 'No-Code/Low-Code'] },
-    { level: 'Intermediate', color: '#C87200', categories: ['Python Automation', 'RPA Tools', 'Document & Email Automation', 'Data Collection & Analysis'] },
+    { level: 'Intermediate', color: '#C87200', categories: ['Python Automation', 'RPA Tools', 'Document & Email Automation', 'Data Collection & Analysis', 'Prompt Learning'] },
     { level: 'Advanced', color: '#C8102E', categories: ['AI-Powered Automation', 'Workflow Design', 'Real-World Projects'] },
   ];
 
