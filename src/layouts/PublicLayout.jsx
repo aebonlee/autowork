@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useState, useCallback } from 'react';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
@@ -32,9 +32,11 @@ function LoadingFallback() {
 
 function LessonsLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [toc, setToc] = useState([]);
+  const updateToc = useCallback((headings) => setToc(headings || []), []);
   return (
     <div className="aw-lessons-layout">
-      <LessonsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <LessonsSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} toc={toc} />
       <div className="aw-main">
         <button
           className="aw-sidebar-toggle"
@@ -43,7 +45,7 @@ function LessonsLayout() {
         >
           <i className="fa-solid fa-bars" />
         </button>
-        <Outlet />
+        <Outlet context={{ setToc: updateToc }} />
       </div>
     </div>
   );

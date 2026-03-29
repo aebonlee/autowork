@@ -10,7 +10,7 @@ const ALL_GROUPS = [
   { id: 'prompt', nameKo: '프롬프트 학습', nameEn: 'Prompt Learning', icon: 'fa-wand-magic-sparkles', categorySlugs: ['prompt'] },
 ];
 
-export default function LessonsSidebar({ isOpen, onClose }) {
+export default function LessonsSidebar({ isOpen, onClose, toc = [] }) {
   const location = useLocation();
   const { language } = useLanguage();
 
@@ -35,6 +35,8 @@ export default function LessonsSidebar({ isOpen, onClose }) {
 
   // Track which categories are expanded
   const [expanded, setExpanded] = useState({});
+  // Track if TOC section is expanded
+  const [tocExpanded, setTocExpanded] = useState(true);
 
   // Auto-expand only the first category (or the active one) in the group
   useEffect(() => {
@@ -78,14 +80,38 @@ export default function LessonsSidebar({ isOpen, onClose }) {
                     {cat.lessons.map(lesson => {
                       const isActive = isCatActive && activeLessonSlug === lesson.slug;
                       return (
-                        <Link
-                          key={lesson.slug}
-                          to={`/lessons/${cat.slug}/${lesson.slug}`}
-                          className={`aw-nav-child ${isActive ? 'active' : ''}`}
-                          onClick={onClose}
-                        >
-                          <span>{language === 'ko' ? lesson.titleKo : lesson.titleEn}</span>
-                        </Link>
+                        <div key={lesson.slug}>
+                          <Link
+                            to={`/lessons/${cat.slug}/${lesson.slug}`}
+                            className={`aw-nav-child ${isActive ? 'active' : ''}`}
+                            onClick={onClose}
+                          >
+                            <span>{language === 'ko' ? lesson.titleKo : lesson.titleEn}</span>
+                          </Link>
+                          {/* TOC under active lesson */}
+                          {isActive && toc.length > 0 && (
+                            <div className="aw-toc-section">
+                              <button className="aw-toc-toggle" onClick={() => setTocExpanded(prev => !prev)}>
+                                <span>{language === 'ko' ? '목차' : 'Contents'}</span>
+                                <i className={`fa-solid fa-chevron-down aw-nav-arrow ${tocExpanded ? 'open' : ''}`} />
+                              </button>
+                              {tocExpanded && (
+                                <div className="aw-toc-items">
+                                  {toc.map((h, i) => (
+                                    <a
+                                      key={i}
+                                      href={`#${h.id}`}
+                                      className={`aw-toc-item aw-toc-level-${h.level}`}
+                                      onClick={onClose}
+                                    >
+                                      {h.text}
+                                    </a>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       );
                     })}
                   </div>

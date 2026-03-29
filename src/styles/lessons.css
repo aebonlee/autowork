@@ -294,62 +294,51 @@
   text-decoration: underline;
 }
 
-.lesson-detail-layout {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 32px;
-  align-items: start;
-}
-
-/* TOC Sidebar */
-.lesson-toc {
-  position: sticky;
-  top: 100px;
-  background: var(--card-bg, #fff);
-  border-radius: 12px;
+/* Content Header with primary color */
+.lesson-content-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--primary-gradient, linear-gradient(135deg, var(--primary-blue) 0%, #2d5aa0 100%));
+  color: white;
+  border-radius: 16px 16px 0 0;
   border: 1px solid var(--border-color, #e5e7eb);
-  padding: 20px;
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
+  border-bottom: none;
 }
 
-.lesson-toc h4 {
-  font-size: 0.85rem;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--text-light);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.lesson-toc ul {
-  list-style: none;
-  padding: 0;
+.lesson-content-header-info h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
   margin: 0;
+  line-height: 1.4;
 }
 
-.toc-item {
-  margin-bottom: 4px;
-}
-
-.toc-item a {
-  display: block;
-  padding: 4px 8px;
-  font-size: 0.82rem;
-  color: var(--text-secondary, #555);
-  text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.2s;
-}
-
-.toc-item a:hover {
-  background: rgba(27, 58, 107, 0.08);
-  color: var(--primary-blue);
-}
-
-.toc-level-3 a {
-  padding-left: 20px;
+.lesson-content-header .lesson-content-category {
   font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+/* Copy button for prompt lessons */
+.lesson-copy-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  background: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  flex-shrink: 0;
+}
+.lesson-copy-btn:hover {
+  background: rgba(255,255,255,0.9);
+  transform: translateY(-1px);
 }
 
 /* Markdown Body */
@@ -359,8 +348,9 @@
 
 .markdown-body {
   background: var(--card-bg, #fff);
-  border-radius: 16px;
+  border-radius: 0 0 16px 16px;
   border: 1px solid var(--border-color, #e5e7eb);
+  border-top: none;
   padding: 36px 40px;
   line-height: 1.8;
   font-size: 0.95rem;
@@ -638,12 +628,53 @@
   padding: 0 32px;
 }
 
-/* Flip lesson detail TOC to right side inside sidebar layout */
-.aw-main .lesson-detail-layout {
-  grid-template-columns: 1fr 200px;
+/* Sidebar TOC styles */
+.aw-toc-section {
+  padding: 2px 0 4px 36px;
 }
-.aw-main .lesson-toc { order: 2; }
-.aw-main .lesson-detail-content { order: 1; }
+
+.aw-toc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  opacity: 0.8;
+}
+.aw-toc-toggle:hover { opacity: 1; }
+.aw-toc-toggle .aw-nav-arrow { font-size: 8px; }
+
+.aw-toc-items {
+  border-left: 2px solid rgba(27, 58, 107, 0.15);
+  margin-left: 4px;
+  padding: 2px 0;
+}
+
+.aw-toc-item {
+  display: block;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.15s ease;
+  line-height: 1.5;
+}
+.aw-toc-item:hover {
+  color: var(--primary-blue);
+}
+.aw-toc-level-3 {
+  padding-left: 20px;
+  font-size: 11px;
+}
 
 /* Sidebar toggle (mobile only) */
 .aw-sidebar-toggle {
@@ -671,18 +702,6 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .lesson-detail-layout {
-    grid-template-columns: 1fr;
-  }
-  .lesson-toc {
-    position: static;
-    max-height: none;
-  }
-  .aw-main .lesson-detail-layout {
-    grid-template-columns: 1fr;
-  }
-  .aw-main .lesson-toc { order: 0; }
-  .aw-main .lesson-detail-content { order: 0; }
 }
 
 @media (max-width: 768px) {
