@@ -317,27 +317,35 @@
   color: rgba(255,255,255,0.8);
 }
 
-/* Copy button for prompt lessons */
-.lesson-copy-btn {
+/* Copy button for prompt code blocks */
+.prompt-code-wrapper {
+  position: relative;
+  margin: 1em 0;
+}
+.prompt-code-wrapper pre {
+  margin: 0;
+}
+.prompt-code-wrapper .lesson-copy-btn {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 5px 12px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--primary-blue);
-  background: white;
-  border: none;
-  border-radius: 8px;
+  color: var(--text-secondary, #4B5563);
+  background: var(--bg-light-gray, #F5F7FA);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
-  flex-shrink: 0;
   margin-left: auto;
+  width: fit-content;
 }
-.lesson-copy-btn:hover {
-  background: rgba(255,255,255,0.9);
-  transform: translateY(-1px);
+.prompt-code-wrapper .lesson-copy-btn:hover {
+  background: var(--bg-white, #fff);
+  color: var(--primary-blue);
 }
 
 /* Markdown Body */

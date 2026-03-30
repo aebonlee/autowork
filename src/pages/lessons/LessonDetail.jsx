@@ -12,14 +12,13 @@ export default function LessonDetail() {
   const [lessonData, setLessonData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [copiedBlock, setCopiedBlock] = useState(null);
 
   const category = getCategoryBySlug(categorySlug);
   const lessonIndex = category?.lessons.findIndex(l => l.slug === lessonSlug) ?? -1;
   const lessonMeta = category?.lessons[lessonIndex];
   const prevLesson = lessonIndex > 0 ? category.lessons[lessonIndex - 1] : null;
   const nextLesson = lessonIndex < (category?.lessons.length || 0) - 1 ? category.lessons[lessonIndex + 1] : null;
-  const isPrompt = categorySlug === 'prompt';
 
   useEffect(() => {
     setLoading(true);
@@ -61,11 +60,11 @@ export default function LessonDetail() {
     return () => setToc([]);
   }, [toc, setToc]);
 
-  async function handleCopy() {
+  async function handleCopyBlock(text) {
     try {
-      await navigator.clipboard.writeText(content);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      await navigator.clipboard.writeText(text);
+      setCopiedBlock(text);
+      setTimeout(() => setCopiedBlock(null), 2000);
     } catch { /* fallback */ }
   }
 
@@ -104,12 +103,6 @@ export default function LessonDetail() {
             <h2>{language === 'ko' ? lessonMeta.titleKo : lessonMeta.titleEn}</h2>
             <p>{language === 'ko' ? category.nameKo : category.nameEn}</p>
           </div>
-          {isPrompt && (
-            <button className="lesson-copy-btn" onClick={handleCopy}>
-              <i className={`fa-solid ${copied ? 'fa-check' : 'fa-copy'}`} />
-              {copied ? (language === 'ko' ? '복사됨' : 'Copied') : (language === 'ko' ? '복사' : 'Copy')}
-            </button>
-          )}
         </div>
 
         <div className="ck-content-body">
@@ -132,6 +125,24 @@ export default function LessonDetail() {
                     const text = String(children);
                     const id = text.toLowerCase().replace(/[^a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ]+/g, '-').replace(/(^-|-$)/g, '');
                     return <h3 id={id} {...props}>{children}</h3>;
+                  },
+                  pre: ({ children, ...props }) => {
+                    const codeText = (() => {
+                      try {
+                        const codeEl = children?.props;
+                        return codeEl?.children || '';
+                      } catch { return ''; }
+                    })();
+                    const isCopied = copiedBlock === codeText;
+                    return (
+                      <div className="prompt-code-wrapper">
+                        <button className="lesson-copy-btn" onClick={() => handleCopyBlock(codeText)}>
+                          <i className={`fa-solid ${isCopied ? 'fa-check' : 'fa-copy'}`} />
+                          {isCopied ? (language === 'ko' ? '복사됨' : 'Copied') : (language === 'ko' ? '복사' : 'Copy')}
+                        </button>
+                        <pre {...props}>{children}</pre>
+                      </div>
+                    );
                   },
                 }}
               >
