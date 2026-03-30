@@ -220,7 +220,14 @@ export const MENU_GROUPS = [
     nameKo: 'AI활용 업무자동화',
     nameEn: 'AI Automation',
     icon: 'fa-brain',
-    categorySlugs: ['ai', 'rpa', 'nocode', 'ai-assistants'],
+    categorySlugs: ['ai', 'rpa', 'nocode'],
+  },
+  {
+    id: 'ai-assistants',
+    nameKo: 'AI 어시스턴트 활용',
+    nameEn: 'AI Assistants',
+    icon: 'fa-wand-magic-sparkles',
+    categorySlugs: ['ai-assistants'],
   },
   {
     id: 'projects',
