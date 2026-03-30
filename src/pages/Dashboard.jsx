@@ -20,9 +20,9 @@ export default function Dashboard() {
         <div className="quick-access">
           <h2>{language === 'ko' ? '학습 카테고리' : 'Learning Categories'}</h2>
           <div className="quick-access-grid">
-            {LESSON_CATEGORIES.slice(0, 6).map(cat => (
+            {LESSON_CATEGORIES.map(cat => (
               <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="quick-access-card">
-                <div className="quick-access-icon">{cat.icon}</div>
+                <div className="quick-access-icon"><i className={`fa-solid ${cat.icon}`} /></div>
                 <span className="quick-access-label">{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
               </Link>
             ))}
@@ -46,7 +46,7 @@ export default function Dashboard() {
             <div className="usage-stats-list">
               {LESSON_CATEGORIES.map(cat => (
                 <div key={cat.slug} className="usage-stat-item">
-                  <span className="usage-stat-label">{cat.icon} {language === 'ko' ? cat.nameKo : cat.nameEn}</span>
+                  <span className="usage-stat-label"><i className={`fa-solid ${cat.icon}`} /> {language === 'ko' ? cat.nameKo : cat.nameEn}</span>
                   <span className="usage-stat-value">0/{cat.lessons.length}</span>
                 </div>
               ))}
