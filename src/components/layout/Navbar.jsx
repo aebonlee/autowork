@@ -63,9 +63,9 @@ export default function Navbar() {
   }
 
   function isGroupActive(groupId) {
-    if (groupId === 'prompt') return location.pathname.startsWith('/lessons/prompt');
+    if (groupId === 'prompt') return location.pathname === '/lessons/prompt' || location.pathname.startsWith('/lessons/prompt/');
     const categories = getCategoriesByGroup(groupId);
-    return categories.some(cat => location.pathname.startsWith(`/lessons/${cat.slug}`));
+    return categories.some(cat => location.pathname === `/lessons/${cat.slug}` || location.pathname.startsWith(`/lessons/${cat.slug}/`));
   }
 
   function toggleMobileAccordion(id) {
@@ -79,7 +79,7 @@ export default function Navbar() {
     { to: '/lessons/ai', label: t('nav.aiAutomation'), isActive: isGroupActive('ai-auto') },
     { to: '/lessons/ai-assistants', label: t('nav.aiAssistants'), isActive: isGroupActive('ai-assistants') },
     { to: '/lessons/workflow', label: t('nav.realProjects'), isActive: isGroupActive('projects') },
-    { to: '/lessons/prompt', label: t('nav.prompt'), isActive: location.pathname.startsWith('/lessons/prompt') },
+    { to: '/lessons/prompt', label: t('nav.prompt'), isActive: location.pathname === '/lessons/prompt' || location.pathname.startsWith('/lessons/prompt/') },
     { to: '/community/board', label: t('nav.community'), isActive: location.pathname.startsWith('/community') },
   ];
 
@@ -209,7 +209,7 @@ export default function Navbar() {
                       <li key={cat.slug}>
                         <Link
                           to={`/lessons/${cat.slug}`}
-                          className={`mobile-sub-link ${location.pathname.startsWith(`/lessons/${cat.slug}`) ? 'active' : ''}`}
+                          className={`mobile-sub-link ${(location.pathname === `/lessons/${cat.slug}` || location.pathname.startsWith(`/lessons/${cat.slug}/`)) ? 'active' : ''}`}
                         >
                           <i className={`fa-solid ${cat.icon}`} />
                           <span>{language === 'ko' ? cat.nameKo : cat.nameEn}</span>
