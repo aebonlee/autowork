@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LESSON_CATEGORIES } from '../config/lessons';
+import SEO from '../components/SEO';
 
 export default function Dashboard() {
   const { user, profile } = useAuth();
@@ -11,6 +12,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-page">
+      <SEO title={t('nav.dashboard')} path="/dashboard" noindex />
       <div className="container">
         <div className="dashboard-welcome">
           <h1>{displayName}{t('dashboard.welcome')}</h1>

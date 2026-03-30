@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getCategoryBySlug } from '../../config/lessons';
+import SEO from '../../components/SEO';
 
 export default function LessonDetail() {
   const { categorySlug, lessonSlug } = useParams();
@@ -85,14 +86,35 @@ export default function LessonDetail() {
     return <div className="loading-page"><div className="loading-spinner" /></div>;
   }
 
+  const lessonTitle = language === 'ko' ? lessonMeta.titleKo : lessonMeta.titleEn;
+  const lessonDesc = language === 'ko' ? lessonMeta.descKo : lessonMeta.descEn;
+  const catName = language === 'ko' ? category.nameKo : category.nameEn;
+
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: language === 'ko' ? '학습하기' : 'Lessons', item: 'https://autowork.dreamitbiz.com/lessons' },
+      { '@type': 'ListItem', position: 2, name: catName, item: `https://autowork.dreamitbiz.com/lessons/${categorySlug}` },
+      { '@type': 'ListItem', position: 3, name: lessonTitle },
+    ],
+  };
+
   return (
     <>
+      <SEO
+        title={`${lessonTitle} - ${catName}`}
+        description={lessonDesc}
+        path={`/lessons/${categorySlug}/${lessonSlug}`}
+        type="article"
+        jsonLd={breadcrumbLd}
+      />
       <div className="lesson-detail-breadcrumb">
         <Link to="/lessons">{t('lessons.title')}</Link>
         <span> / </span>
-        <Link to={`/lessons/${categorySlug}`}>{language === 'ko' ? category.nameKo : category.nameEn}</Link>
+        <Link to={`/lessons/${categorySlug}`}>{catName}</Link>
         <span> / </span>
-        <span>{language === 'ko' ? lessonMeta.titleKo : lessonMeta.titleEn}</span>
+        <span>{lessonTitle}</span>
       </div>
 
       <div className="ck-content-box">

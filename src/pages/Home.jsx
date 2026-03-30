@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { LESSON_CATEGORIES, MENU_GROUPS, getCategoriesByGroup, getTotalLessonCount } from '../config/lessons';
 import HeroCarousel from '../components/HeroCarousel';
+import SEO from '../components/SEO';
 
 const levelColors = {
   beginner: '#00855A',
@@ -51,8 +52,30 @@ export default function Home() {
   const totalLessons = getTotalLessonCount();
   const totalCategories = LESSON_CATEGORIES.length;
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'AutoWork',
+    url: 'https://autowork.dreamitbiz.com',
+    description: language === 'ko'
+      ? 'Excel 매크로부터 Python, RPA, AI까지 업무자동화를 위한 체계적인 학습 플랫폼'
+      : 'Structured learning platform for work automation from Excel macros to Python, RPA, and AI',
+    publisher: {
+      '@type': 'Organization',
+      name: 'DreamIT Biz',
+      url: 'https://autowork.dreamitbiz.com',
+    },
+  };
+
   return (
     <>
+      <SEO
+        path="/"
+        description={language === 'ko'
+          ? 'Excel 매크로부터 Python, RPA, AI까지 업무자동화를 위한 체계적인 학습 플랫폼'
+          : 'Structured learning platform for work automation from Excel macros to Python, RPA, and AI'}
+        jsonLd={jsonLd}
+      />
       <HeroCarousel />
 
       {/* ── Highlights: Why AutoWork ── */}

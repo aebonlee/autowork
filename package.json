@@ -7,12 +7,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "generate-og": "node scripts/generate-og-images.mjs"
+    "generate-og": "node scripts/generate-og-images.mjs",
+    "generate-sitemap": "node scripts/generate-sitemap.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.47.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-helmet-async": "^3.0.0",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^7.1.0",
     "remark-gfm": "^4.0.0"

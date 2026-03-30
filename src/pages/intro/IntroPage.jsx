@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LESSON_CATEGORIES } from '../../config/lessons';
+import SEO from '../../components/SEO';
 import '../../styles/intro-page.css';
 
 const MENU = [
@@ -285,6 +286,13 @@ export default function IntroPage() {
 
   return (
     <div className="ck-page">
+      <SEO
+        title={language === 'ko' ? 'AutoWork 소개' : 'About AutoWork'}
+        description={language === 'ko'
+          ? 'AutoWork 업무자동화 학습 플랫폼의 소개, 사용가이드, 학습 로드맵을 확인하세요.'
+          : 'Learn about AutoWork, user guide, and learning roadmap for work automation.'}
+        path="/intro"
+      />
       <div className="container">
         <div className="ck-layout">
           {/* Mobile toggle */}

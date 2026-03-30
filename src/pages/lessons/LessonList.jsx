@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getCategoryBySlug } from '../../config/lessons';
+import SEO from '../../components/SEO';
 
 const levelColors = {
   beginner: '#00855A',
@@ -26,8 +27,16 @@ export default function LessonList() {
     );
   }
 
+  const catName = language === 'ko' ? category.nameKo : category.nameEn;
+  const catDesc = language === 'ko' ? category.descKo : category.descEn;
+
   return (
     <div className="lessons-page">
+      <SEO
+        title={catName}
+        description={catDesc}
+        path={`/lessons/${categorySlug}`}
+      />
       <div className="container">
         <Link to="/lessons" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
           &larr; {t('lessons.backToCategories')}

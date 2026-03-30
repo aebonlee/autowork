@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useToast } from '../contexts/ToastContext';
 import { signInWithEmail, signInWithGoogle, signInWithKakao } from '../utils/auth';
+import SEO from '../components/SEO';
 
 export default function Login() {
   const { t } = useLanguage();
@@ -26,6 +27,7 @@ export default function Login() {
 
   return (
     <div className="auth-page">
+      <SEO title={t('nav.login')} path="/login" noindex />
       <div className="auth-container">
         <div className="auth-card">
           <div className="auth-header">

@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { LESSON_CATEGORIES, MENU_GROUPS, getCategoriesByGroup } from '../../config/lessons';
+import SEO from '../../components/SEO';
 
 const levelColors = {
   beginner: '#00855A',
@@ -27,6 +28,13 @@ export default function LessonCategories() {
 
   return (
     <div className="lessons-page">
+      <SEO
+        title={language === 'ko' ? '학습 카테고리' : 'Learning Categories'}
+        description={language === 'ko'
+          ? 'Excel, Python, RPA, AI 등 12개 카테고리의 업무자동화 학습 콘텐츠를 확인하세요.'
+          : 'Browse 12 categories of work automation learning content including Excel, Python, RPA, and AI.'}
+        path="/lessons"
+      />
       <div className="container">
         <div className="lessons-header">
           <h1>{t('lessons.title')}</h1>

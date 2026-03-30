@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { supabase } from '../../utils/supabase';
+import SEO from '../../components/SEO';
 
 const PER_PAGE = 15;
 const CATEGORIES = ['all', 'notice', 'tip', 'question', 'free', 'showcase'];
@@ -55,6 +56,13 @@ export default function Board() {
 
   return (
     <div className="community-page">
+      <SEO
+        title={language === 'ko' ? '커뮤니티' : 'Community'}
+        description={language === 'ko'
+          ? '업무자동화 학습자 커뮤니티에서 질문하고 경험을 공유하세요.'
+          : 'Ask questions and share experiences in the work automation learning community.'}
+        path="/community/board"
+      />
       <div className="container">
         <h1>{t('community.title')}</h1>
         <p className="page-desc">{t('community.desc')}</p>

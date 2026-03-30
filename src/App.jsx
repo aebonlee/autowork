@@ -1,4 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
@@ -13,18 +14,20 @@ function ScrollAnimationInit() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <ToastProvider>
-            <BrowserRouter>
-              <ScrollAnimationInit />
-              <PublicLayout />
-            </BrowserRouter>
-          </ToastProvider>
-        </AuthProvider>
-      </LanguageProvider>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <ToastProvider>
+              <BrowserRouter>
+                <ScrollAnimationInit />
+                <PublicLayout />
+              </BrowserRouter>
+            </ToastProvider>
+          </AuthProvider>
+        </LanguageProvider>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

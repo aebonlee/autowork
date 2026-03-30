@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import SEO from '../components/SEO';
 
 export default function NotFound() {
   const { language } = useLanguage();
 
   return (
     <div className="not-found-page">
+      <SEO title="404" noindex />
       <div className="not-found-content">
         <div className="not-found-code">404</div>
         <div className="not-found-title">

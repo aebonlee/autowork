@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useToast } from '../../contexts/ToastContext';
 import { supabase } from '../../utils/supabase';
+import SEO from '../../components/SEO';
 
 const CATEGORY_CLASSES = {
   notice: 'board-category-notice',
@@ -116,6 +117,13 @@ export default function BoardDetail() {
 
   return (
     <div className="board-detail-page">
+      <SEO
+        title={post.title}
+        description={post.content?.replace(/<[^>]*>/g, '').slice(0, 160)}
+        path={`/community/board/${id}`}
+        type="article"
+        noindex
+      />
       <div className="container">
         <Link to="/community/board" className="btn-link" style={{ marginBottom: '20px', display: 'inline-flex' }}>
           &larr; {language === 'ko' ? '목록으로' : 'Back to list'}
