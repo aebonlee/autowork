@@ -573,17 +573,106 @@
   .lessons-page {
     padding: 80px 0 40px;
   }
+  .lessons-header {
+    margin-bottom: 28px;
+  }
+  .lessons-header h1 {
+    font-size: 1.5rem;
+  }
   .lesson-categories-grid {
     grid-template-columns: 1fr;
   }
   .lesson-list-header {
     flex-direction: column;
     text-align: center;
+    padding: 18px;
+  }
+  .lesson-list-header h1 {
+    font-size: 1.3rem;
+  }
+  .lesson-list-item {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .category-group {
+    margin-bottom: 32px;
+  }
+  .category-group-title {
+    font-size: 1.1rem;
+  }
+  .category-lesson-item {
+    padding: 8px 10px;
+  }
+  .category-lesson-desc {
+    display: none;
   }
   .markdown-body {
-    padding: 20px;
+    padding: 16px;
+    font-size: 0.9rem;
   }
+  .markdown-body h1 { font-size: 1.4rem; }
+  .markdown-body h2 { font-size: 1.15rem; }
+  .markdown-body h3 { font-size: 1rem; }
   .lesson-nav {
     grid-template-columns: 1fr;
+  }
+  .lesson-detail-breadcrumb {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .lessons-page {
+    padding: 72px 0 32px;
+  }
+  .lessons-header h1 {
+    font-size: 1.3rem;
+  }
+  .lessons-header p {
+    font-size: 0.85rem;
+  }
+  .lesson-category-card {
+    padding: 16px;
+    gap: 12px;
+  }
+  .lesson-category-icon {
+    font-size: 2rem;
+  }
+  .lesson-category-info h3 {
+    font-size: 1rem;
+  }
+  .lesson-list-header {
+    padding: 14px;
+    gap: 12px;
+  }
+  .lesson-list-header h1 {
+    font-size: 1.15rem;
+  }
+  .lesson-list-icon {
+    font-size: 2.4rem;
+  }
+  .lesson-list-item {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .lesson-list-number {
+    font-size: 0.95rem;
+    min-width: 28px;
+  }
+  .lesson-list-info h3 {
+    font-size: 0.9rem;
+  }
+  .lesson-list-desc {
+    font-size: 0.78rem;
+  }
+  .markdown-body {
+    padding: 14px;
+    font-size: 0.88rem;
+  }
+  .markdown-body pre {
+    font-size: 0.78rem;
+  }
+  .category-lessons-list {
+    padding-left: 16px;
   }
 }

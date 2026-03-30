@@ -455,8 +455,18 @@
   .ck-page {
     padding: 80px 0 40px;
   }
+  .ck-content-header {
+    padding: 16px 18px;
+    gap: 12px;
+  }
+  .ck-content-header h2 {
+    font-size: 1.1rem;
+  }
+  .ck-ch-text p {
+    font-size: 0.8rem;
+  }
   .ck-content-body {
-    padding: 20px;
+    padding: 16px;
   }
   .intro-features-grid {
     grid-template-columns: 1fr;
@@ -467,15 +477,82 @@
   .intro-links-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .intro-link-card {
+    padding: 14px 8px;
+    font-size: 0.8rem;
+  }
   .roadmap-stage-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
+  .roadmap-stage-badge {
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px 16px;
+    min-width: auto;
+  }
+  .roadmap-stage-desc {
+    font-size: 0.8rem;
+  }
   .roadmap-cards {
     grid-template-columns: 1fr;
   }
+  .roadmap-card {
+    padding: 12px 14px;
+  }
   .roadmap-card-arrow {
     opacity: 1;
+  }
+  .roadmap-connector {
+    padding: 8px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .ck-page {
+    padding: 72px 0 32px;
+  }
+  .ck-content-box {
+    border-radius: 12px;
+    margin-bottom: 16px;
+  }
+  .ck-content-header {
+    padding: 14px 14px;
+    flex-wrap: wrap;
+  }
+  .ck-content-header > i {
+    font-size: 1.1rem;
+  }
+  .ck-content-body {
+    padding: 14px;
+  }
+  .intro-feature-card {
+    padding: 14px;
+  }
+  .intro-feature-card h3 {
+    font-size: 0.88rem;
+  }
+  .intro-guide-step {
+    gap: 12px;
+  }
+  .intro-step-number {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+  .intro-step-content h3 {
+    font-size: 0.88rem;
+  }
+  .intro-step-content p {
+    font-size: 0.8rem;
+  }
+  .roadmap-card-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.95rem;
+  }
+  .roadmap-card-info h4 {
+    font-size: 0.82rem;
   }
 }
