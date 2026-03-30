@@ -77,6 +77,7 @@ export default function Navbar() {
     { to: '/intro', label: t('nav.intro'), isActive: location.pathname === '/intro' },
     { to: '/lessons/basics', label: t('nav.oaAutomation'), isActive: isGroupActive('oa') },
     { to: '/lessons/ai', label: t('nav.aiAutomation'), isActive: isGroupActive('ai-auto') },
+    { to: '/lessons/ai-assistants', label: t('nav.aiAssistants'), isActive: isGroupActive('ai-assistants') },
     { to: '/lessons/workflow', label: t('nav.realProjects'), isActive: isGroupActive('projects') },
     { to: '/lessons/prompt', label: t('nav.prompt'), isActive: location.pathname.startsWith('/lessons/prompt') },
     { to: '/community/board', label: t('nav.community'), isActive: location.pathname.startsWith('/community') },

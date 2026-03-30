@@ -25,6 +25,7 @@ export default function Footer() {
               <li><Link to="/lessons/excel">{t('nav.excel')}</Link></li>
               <li><Link to="/lessons/python">{t('nav.python')}</Link></li>
               <li><Link to="/lessons/ai">{t('nav.ai')}</Link></li>
+              <li><Link to="/lessons/ai-assistants">{t('nav.aiAssistants')}</Link></li>
               <li><Link to="/lessons/prompt">{t('nav.prompt')}</Link></li>
               <li><Link to="/community/board">{t('nav.community')}</Link></li>
             </ul>
