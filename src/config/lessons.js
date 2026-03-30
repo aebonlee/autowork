@@ -154,6 +154,24 @@ export const LESSON_CATEGORIES = [
     ],
   },
   {
+    id: 12,
+    slug: 'ai-assistants',
+    icon: 'fa-wand-magic-sparkles',
+    nameKo: 'AI 어시스턴트 활용',
+    nameEn: 'AI Assistants & Custom GPTs',
+    descKo: 'Custom GPTs, Google Gems, Claude Projects 등 나만의 AI 어시스턴트를 만들어 업무를 자동화합니다.',
+    descEn: 'Build your own AI assistants using Custom GPTs, Google Gems, Claude Projects and more.',
+    level: 'intermediate',
+    lessons: [
+      { slug: 'ai-assistants-overview', titleKo: 'AI 어시스턴트 개요', titleEn: 'AI Assistants Overview', descKo: 'AI 어시스턴트의 종류와 활용 전략 한눈에 보기', descEn: 'Overview of AI assistant types and utilization strategies' },
+      { slug: 'custom-gpts', titleKo: 'Custom GPTs 만들기', titleEn: 'Building Custom GPTs', descKo: 'OpenAI GPT Builder로 나만의 업무 전용 GPT 만들기', descEn: 'Create your own task-specific GPT with OpenAI GPT Builder' },
+      { slug: 'google-gems', titleKo: 'Google Gems & NotebookLM', titleEn: 'Google Gems & NotebookLM', descKo: 'Gemini Gems와 NotebookLM으로 문서 기반 AI 활용', descEn: 'Document-based AI with Gemini Gems and NotebookLM' },
+      { slug: 'claude-projects', titleKo: 'Claude Projects 활용', titleEn: 'Claude Projects', descKo: 'Claude Projects로 팀 지식 기반 AI 어시스턴트 구축', descEn: 'Build team knowledge-based AI assistants with Claude Projects' },
+      { slug: 'copilot-studio', titleKo: 'Microsoft Copilot 활용', titleEn: 'Microsoft Copilot Studio', descKo: 'Copilot Studio로 기업용 AI 챗봇 구축하기', descEn: 'Build enterprise AI chatbots with Copilot Studio' },
+      { slug: 'ai-assistant-project', titleKo: 'AI 어시스턴트 실전 프로젝트', titleEn: 'AI Assistant Hands-on Project', descKo: '실제 업무에 맞는 AI 어시스턴트 기획부터 배포까지', descEn: 'Plan and deploy AI assistants for your real work scenarios' },
+    ],
+  },
+  {
     id: 10,
     slug: 'projects',
     icon: 'fa-rocket',
@@ -202,7 +220,7 @@ export const MENU_GROUPS = [
     nameKo: 'AI활용 업무자동화',
     nameEn: 'AI Automation',
     icon: 'fa-brain',
-    categorySlugs: ['ai', 'rpa', 'nocode'],
+    categorySlugs: ['ai', 'rpa', 'nocode', 'ai-assistants'],
   },
   {
     id: 'projects',
