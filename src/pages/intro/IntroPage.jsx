@@ -133,15 +133,31 @@ function GuideSection({ language, t }) {
 }
 
 function RoadmapSection({ language }) {
-  const levels = language === 'ko' ? [
-    { level: '입문', color: '#00855A', categories: ['업무자동화 기초', 'Excel/스프레드시트 자동화', '노코드/로코드 자동화'] },
-    { level: '중급', color: '#C87200', categories: ['Python 업무자동화', 'RPA 도구 활용', '문서/이메일 자동화', '데이터 수집/분석 자동화', '프롬프트 학습'] },
-    { level: '고급', color: '#C8102E', categories: ['AI 활용 업무자동화', '워크플로우 설계', '실전 프로젝트'] },
-  ] : [
-    { level: 'Beginner', color: '#00855A', categories: ['Automation Basics', 'Excel/Spreadsheet Automation', 'No-Code/Low-Code'] },
-    { level: 'Intermediate', color: '#C87200', categories: ['Python Automation', 'RPA Tools', 'Document & Email Automation', 'Data Collection & Analysis', 'Prompt Learning'] },
-    { level: 'Advanced', color: '#C8102E', categories: ['AI-Powered Automation', 'Workflow Design', 'Real-World Projects'] },
+  const levels = [
+    {
+      level: language === 'ko' ? '입문' : 'Beginner',
+      levelEn: 'Beginner',
+      color: '#00855A',
+      desc: language === 'ko' ? '자동화의 기초 개념을 익히고, 코딩 없이 시작할 수 있는 도구들을 학습합니다.' : 'Learn foundational concepts and start with tools that require no coding.',
+      categories: LESSON_CATEGORIES.filter(c => c.level === 'beginner'),
+    },
+    {
+      level: language === 'ko' ? '중급' : 'Intermediate',
+      levelEn: 'Intermediate',
+      color: '#C87200',
+      desc: language === 'ko' ? '프로그래밍과 전문 도구를 활용한 본격적인 업무자동화를 학습합니다.' : 'Learn serious automation with programming and professional tools.',
+      categories: LESSON_CATEGORIES.filter(c => c.level === 'intermediate'),
+    },
+    {
+      level: language === 'ko' ? '고급' : 'Advanced',
+      levelEn: 'Advanced',
+      color: '#C8102E',
+      desc: language === 'ko' ? 'AI 기술과 설계 원칙을 적용하여 실전 프로젝트를 완성합니다.' : 'Apply AI technology and design principles to complete real-world projects.',
+      categories: LESSON_CATEGORIES.filter(c => c.level === 'advanced'),
+    },
   ];
+
+  const totalLessons = LESSON_CATEGORIES.reduce((s, c) => s + c.lessons.length, 0);
 
   return (
     <div className="ck-content-box">
@@ -149,22 +165,41 @@ function RoadmapSection({ language }) {
         <i className="fa-solid fa-route" />
         <div className="ck-ch-text">
           <h2>{language === 'ko' ? '학습 로드맵' : 'Learning Roadmap'}</h2>
-          <p>{language === 'ko' ? '단계별 학습 경로를 안내합니다.' : 'Step-by-step learning path guide.'}</p>
+          <p>{language === 'ko' ? '12개 카테고리, 총 ' + totalLessons + '개 레슨의 단계별 학습 경로' : '12 categories, ' + totalLessons + ' lessons — step-by-step learning path'}</p>
         </div>
       </div>
       <div className="ck-content-body">
-        <div className="intro-roadmap">
+        <div className="intro-roadmap-v2">
           {levels.map((lv, i) => (
-            <div key={i} className="intro-roadmap-level">
-              <div className="intro-roadmap-badge" style={{ background: lv.color }}>{lv.level}</div>
-              <div className="intro-roadmap-categories">
-                {lv.categories.map((cat, j) => (
-                  <span key={j} className="intro-roadmap-category">{cat}</span>
+            <div key={i} className="roadmap-stage">
+              <div className="roadmap-stage-header">
+                <div className="roadmap-stage-badge" style={{ background: lv.color }}>
+                  <span className="roadmap-stage-step">STEP {i + 1}</span>
+                  <span className="roadmap-stage-level">{lv.level}</span>
+                </div>
+                <p className="roadmap-stage-desc">{lv.desc}</p>
+              </div>
+              <div className="roadmap-cards">
+                {lv.categories.map(cat => (
+                  <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="roadmap-card" style={{ '--roadmap-color': lv.color }}>
+                    <div className="roadmap-card-icon" style={{ background: `${lv.color}14`, color: lv.color }}>
+                      <i className={`fa-solid ${cat.icon}`} />
+                    </div>
+                    <div className="roadmap-card-info">
+                      <h4>{language === 'ko' ? cat.nameKo : cat.nameEn}</h4>
+                      <span className="roadmap-card-count">{cat.lessons.length} {language === 'ko' ? '레슨' : 'lessons'}</span>
+                    </div>
+                    <i className="fa-solid fa-chevron-right roadmap-card-arrow" />
+                  </Link>
                 ))}
               </div>
               {i < levels.length - 1 && (
-                <div className="intro-roadmap-arrow">
-                  <i className="fa-solid fa-angles-down" />
+                <div className="roadmap-connector">
+                  <div className="roadmap-connector-line" />
+                  <div className="roadmap-connector-icon">
+                    <i className="fa-solid fa-arrow-down" />
+                  </div>
+                  <div className="roadmap-connector-line" />
                 </div>
               )}
             </div>
