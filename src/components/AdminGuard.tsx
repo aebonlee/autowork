@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
-export default function AdminGuard({ children }) {
+export default function AdminGuard({ children }: any) {
   const { isLoggedIn, isAdmin, loading } = useAuth();
 
   if (loading) {

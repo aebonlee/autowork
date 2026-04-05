@@ -69,7 +69,7 @@ export default function AdminDashboard() {
             </thead>
             <tbody>
               <tr>
-                <td colSpan="3" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-light)' }}>
+                <td colSpan={3} style={{ textAlign: 'center', padding: '40px', color: 'var(--text-light)' }}>
                   {language === 'ko' ? '활동 데이터가 없습니다.' : 'No activity data yet.'}
                 </td>
               </tr>

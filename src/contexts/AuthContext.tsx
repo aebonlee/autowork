@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../utils/supabase';
 import { isAdmin } from '../config/admin';
 
-const AuthContext = createContext();
+const AuthContext = createContext<any>(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -51,10 +51,10 @@ export function AuthProvider({ children }) {
         // signup_domain / visited_sites 자동 처리
         const currentDomain = window.location.hostname;
         const updates = {};
-        if (!profileData.signup_domain) updates.signup_domain = currentDomain;
-        const sites = Array.isArray(profileData.visited_sites) ? profileData.visited_sites : [];
+        if (!(profileData as any).signup_domain) (updates as any).signup_domain = currentDomain;
+        const sites = Array.isArray((profileData as any).visited_sites) ? (profileData as any).visited_sites : [];
         if (!sites.includes(currentDomain)) {
-          updates.visited_sites = [...sites, currentDomain];
+          (updates as any).visited_sites = [...sites, currentDomain];
         }
         if (Object.keys(updates).length > 0) {
           supabase.from('user_profiles').update(updates).eq('id', userId).then(() => {});

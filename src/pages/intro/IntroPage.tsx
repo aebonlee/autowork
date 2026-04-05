@@ -23,7 +23,7 @@ const MENU = [
   },
 ];
 
-function AboutSection({ t }) {
+function AboutSection({ t }: any) {
   const features = [
     { icon: 'fa-layer-group', titleKey: 'feature1Title', descKey: 'feature1Desc', color: '#1B3A6B' },
     { icon: 'fa-book-open', titleKey: 'feature2Title', descKey: 'feature2Desc', color: '#00855A' },
@@ -90,7 +90,7 @@ function AboutSection({ t }) {
   );
 }
 
-function GuideSection({ language, t }) {
+function GuideSection({ language, t }: any) {
   const steps = language === 'ko' ? [
     { title: '회원가입 / 로그인', desc: 'Google 또는 카카오 계정으로 간편 로그인하세요.' },
     { title: '카테고리 선택', desc: '11개 학습 카테고리에서 관심 있는 분야를 선택하세요.' },
@@ -133,7 +133,7 @@ function GuideSection({ language, t }) {
   );
 }
 
-function RoadmapSection({ language }) {
+function RoadmapSection({ language }: any) {
   const levels = [
     {
       level: language === 'ko' ? '입문' : 'Beginner',
@@ -182,7 +182,7 @@ function RoadmapSection({ language }) {
               </div>
               <div className="roadmap-cards">
                 {lv.categories.map(cat => (
-                  <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="roadmap-card" style={{ '--roadmap-color': lv.color }}>
+                  <Link key={cat.slug} to={`/lessons/${cat.slug}`} className="roadmap-card" style={{ '--roadmap-color': lv.color } as React.CSSProperties}>
                     <div className="roadmap-card-icon" style={{ background: `${lv.color}14`, color: lv.color }}>
                       <i className={`fa-solid ${cat.icon}`} />
                     </div>
@@ -211,7 +211,7 @@ function RoadmapSection({ language }) {
   );
 }
 
-function ToolsSection({ language }) {
+function ToolsSection({ language }: any) {
   const tools = [
     { icon: 'fa-table', name: 'Excel / VBA', desc: language === 'ko' ? '수식, 매크로, VBA를 활용한 스프레드시트 자동화' : 'Spreadsheet automation with formulas, macros, and VBA' },
     { icon: 'fa-python', name: 'Python', desc: language === 'ko' ? '파일 처리, 웹 스크래핑, 데이터 분석 자동화' : 'File processing, web scraping, and data analysis automation', fa: 'fa-brands' },

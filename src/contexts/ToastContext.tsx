@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useCallback } from 'react';
 
-const ToastContext = createContext();
+const ToastContext = createContext<any>(null);
 
 let toastId = 0;
 

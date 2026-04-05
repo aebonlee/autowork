@@ -101,7 +101,7 @@ export default function BoardWrite() {
           </div>
           <div className="form-group">
             <label className="form-label">{language === 'ko' ? '내용' : 'Content'}</label>
-            <textarea className="form-textarea" rows="12" value={content} onChange={e => setContent(e.target.value)} required />
+            <textarea className="form-textarea" rows={12} value={content} onChange={e => setContent(e.target.value)} required />
           </div>
 
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>

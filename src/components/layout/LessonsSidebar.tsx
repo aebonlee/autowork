@@ -10,7 +10,7 @@ const ALL_GROUPS = [
   { id: 'prompt', nameKo: '프롬프트 학습', nameEn: 'Prompt Learning', icon: 'fa-wand-magic-sparkles', categorySlugs: ['prompt'] },
 ];
 
-export default function LessonsSidebar({ isOpen, onClose, toc = [] }) {
+export default function LessonsSidebar({ isOpen, onClose, toc = [] }: any) {
   const location = useLocation();
   const { language } = useLanguage();
 

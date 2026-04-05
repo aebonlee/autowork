@@ -7,9 +7,9 @@ import { getCategoryBySlug } from '../../config/lessons';
 import SEO from '../../components/SEO';
 
 export default function LessonDetail() {
-  const { categorySlug, lessonSlug } = useParams();
-  const { language, t } = useLanguage();
-  const { setToc } = useOutletContext();
+  const { categorySlug, lessonSlug  }: any = useParams();
+  const { language, t }: any = useLanguage();
+  const { setToc  }: any = useOutletContext();
   const [lessonData, setLessonData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -25,7 +25,7 @@ export default function LessonDetail() {
     setLoading(true);
     setError(false);
     import(`../../content/${categorySlug}/${lessonSlug}.js`)
-      .then(mod => {
+      .then((mod: any) => {
         setLessonData(mod.default);
         setLoading(false);
       })
@@ -151,7 +151,7 @@ export default function LessonDetail() {
                   pre: ({ children, ...props }) => {
                     const codeText = (() => {
                       try {
-                        const codeEl = children?.props;
+                        const codeEl = (children as any)?.props;
                         return codeEl?.children || '';
                       } catch { return ''; }
                     })();
