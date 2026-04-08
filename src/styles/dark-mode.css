@@ -260,3 +260,91 @@
     background: var(--bg-light-gray);
     border-color: var(--border-light);
 }
+
+/* ============================================
+   Lessons Dark Mode
+   ============================================ */
+[data-theme="dark"] .lesson-category-card {
+    background: var(--bg-light-gray);
+    border-color: var(--border-light);
+}
+[data-theme="dark"] .lesson-category-card:hover {
+    border-color: var(--primary-blue-light);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+[data-theme="dark"] .lesson-list-header {
+    background: var(--bg-light-gray);
+    border-color: var(--border-light);
+}
+[data-theme="dark"] .lesson-list-item {
+    background: var(--bg-light-gray);
+    border-color: var(--border-light);
+}
+[data-theme="dark"] .lesson-list-item:hover {
+    background: var(--primary-blue);
+}
+[data-theme="dark"] .category-lessons-list {
+    border-left-color: var(--border-light);
+}
+[data-theme="dark"] .category-lesson-item:hover {
+    background: var(--primary-blue);
+}
+[data-theme="dark"] .category-group-title {
+    border-bottom-color: var(--primary-blue-light);
+}
+
+/* Lesson Detail / Markdown */
+[data-theme="dark"] .markdown-body code {
+    background: rgba(96, 165, 250, 0.1);
+    color: var(--primary-blue-light);
+}
+[data-theme="dark"] .markdown-body th {
+    background: var(--bg-medium-gray);
+}
+[data-theme="dark"] .markdown-body th,
+[data-theme="dark"] .markdown-body td {
+    border-color: var(--border-light);
+}
+[data-theme="dark"] .markdown-body blockquote {
+    background: var(--bg-light-gray);
+    border-left-color: var(--primary-blue-light);
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .markdown-body h1,
+[data-theme="dark"] .markdown-body h2 {
+    border-bottom-color: var(--border-light);
+}
+[data-theme="dark"] .markdown-body hr {
+    border-top-color: var(--border-light);
+}
+
+/* Lesson Navigation */
+[data-theme="dark"] .lesson-nav-btn {
+    background: var(--bg-light-gray);
+    border-color: var(--border-light);
+}
+[data-theme="dark"] .lesson-nav-btn:hover {
+    border-color: var(--primary-blue);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Copy Button */
+[data-theme="dark"] .prompt-code-wrapper .lesson-copy-btn {
+    background: var(--bg-medium-gray);
+    border-color: var(--border-light);
+    color: var(--text-secondary);
+}
+[data-theme="dark"] .prompt-code-wrapper .lesson-copy-btn:hover {
+    background: var(--bg-light-gray);
+    color: var(--primary-blue-light);
+}
+
+/* TOC Sidebar */
+[data-theme="dark"] .ck-toc-items {
+    border-left-color: rgba(96, 165, 250, 0.2);
+}
+
+/* Lesson header primary variant */
+[data-theme="dark"] .ck-content-header.ck-ch--primary {
+    background: var(--primary-gradient);
+}
