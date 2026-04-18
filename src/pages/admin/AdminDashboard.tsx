@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   async function loadStats() {
     try {
       const [users, posts, comments] = await Promise.all([
-        supabase.from('user_profiles').select('id', { count: 'exact', head: true }),
+        supabase.from('user_profiles').select('id', { count: 'exact', head: true }).contains('visited_sites', [window.location.hostname]),
         supabase.from('autowork_board_posts').select('id', { count: 'exact', head: true }),
         supabase.from('autowork_board_comments').select('id', { count: 'exact', head: true }),
       ]);

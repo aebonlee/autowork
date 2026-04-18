@@ -1,7 +1,8 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import {createContext, useContext, useState, useEffect, useCallback} from 'react';
 import { supabase, setSharedSession, getSharedSession, clearSharedSession } from '../utils/supabase';
 import { isAdmin } from '../config/admin';
 import { useIdleTimeout } from '../hooks/useIdleTimeout';
+import ProfileCompleteModal from '../components/ProfileCompleteModal';
 
 const AuthContext = createContext<any>(null);
 
@@ -138,10 +139,16 @@ export function AuthProvider({ children }) {
   clearSharedSession();
   },
   });
+  const refreshProfile = useCallback(async () => { if (user) await loadProfile(user); }, [user, loadProfile]);
+  const needsProfileCompletion = !!user && !!profile && (!profile.name || !profile.phone);
+
 
   return (
     <AuthContext.Provider value={value}>
       {children}
+      {needsProfileCompletion && user && (
+        <ProfileCompleteModal user={user} onComplete={refreshProfile} />
+      )}
     </AuthContext.Provider>
   );
 }
