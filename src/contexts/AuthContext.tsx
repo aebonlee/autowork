@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase, setSharedSession, getSharedSession, clearSharedSession } from '../utils/supabase';
 import { isAdmin } from '../config/admin';
+import { useIdleTimeout } from '../hooks/useIdleTimeout';
 
 const AuthContext = createContext<any>(null);
 
@@ -45,6 +46,15 @@ export function AuthProvider({ children }) {
         setProfile(null);
       }
     });
+
+
+  // 10분 무동작 세션 타임아웃
+  useIdleTimeout({
+    enabled: !!user,
+    onTimeout: () => {
+      clearSharedSession();
+    },
+  });
 
     return () => subscription.unsubscribe();
   }, []);
