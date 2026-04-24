@@ -119,13 +119,15 @@ export function AuthProvider({ children }) {
     setProfile(null);
   }
 
+  const isLoggedIn = !!user;
+
   const value = {
     user,
     profile,
     loading,
     accountBlock,
     clearAccountBlock,
-    isLoggedIn: !!user,
+    isLoggedIn,
     isAdmin: isAdmin(user?.email),
     signOut,
     updateProfile,
